@@ -156,6 +156,14 @@ void TheTurk::onStart()
 
 
 
+	if (SearchingPosition.empty()){		
+		for (BWTA::BaseLocation * startLocation : BWTA::getStartLocations()){
+			BWAPI::Position targetPosition = startLocation->getPosition();
+			SearchingPosition.push_back(targetPosition);
+		}
+	}
+
+
 
 }
 
@@ -507,8 +515,8 @@ void TheTurk::onFrame(){
 			if (FirstCybernetics && UnitCount["Zealot_Count"] >= UnitCount["Dragoon_Count"]){
 				unit->train(BWAPI::UnitTypes::Protoss_Dragoon);
 			}
-			else if (UnitCount["HighTempler_Count"] < 10){
-				unit->train(BWAPI::UnitTypes::Protoss_High_Templar);
+			else if (FirstTemplerArchive && UnitCount["HighTempler_Count"] < 10 ){
+				unit->train(BWAPI::UnitTypes::Protoss_High_Templar);				
 			}
 			else{
 				unit->train(BWAPI::UnitTypes::Protoss_Zealot);
@@ -540,80 +548,181 @@ void TheTurk::onFrame(){
 
 
 
+	BWAPI::Unitset CorsairSquad;
+	CorsairSquad.clear();	
+
+	int RandomDecision=0;
 
 	// $$$$$$$$$$$$$$$$$$$$$$$$$$$ Attack Process $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$	
 	// Determine whether a scouter is in attack mode or searching mode.
+	// Operation Wolf Pack
 	for (auto & unit : _Commander.UnitSetPresent()){
-		if (unit->getType() == Corsair){						
-			
+		bool RogerThat = false;
+		if (unit->getType() == Corsair){
+			CorsairSquad.insert(unit);
+
+			// CorsairSquad.mor
+
 			// Release the stagmation
 			if (unit->isUnderAttack()){
-				unit->move(homePosition);
+
+				
+
+				unit->move(homePosition);		
+				continue;
 			}
 			
+									
+			// Dodge this
+			for (auto & unit2 : BWAPI::Broodwar->enemy()->getUnits()){
+				if (unit2->getType() == BWAPI::UnitTypes::Zerg_Spore_Colony || unit2->getType() == BWAPI::UnitTypes::Zerg_Hydralisk){	
 
-		
-			if (CorsairSearchMode){
-				for (BWTA::BaseLocation * startLocation : BWTA::getStartLocations()){
-					// if we haven't explored it yet
-					BWAPI::Position targetPosition = BWAPI::Position(startLocation->getTilePosition());
-					double dist = unit->getDistance(targetPosition);
-					if (targetPosition != EnemyHomeBase && dist > 10 ){
-						unit->move(targetPosition,true);
-					}					
+					if (unit2->isInWeaponRange(unit)){
+
+						// Dodge to the 180 degree against to an enemy unit
+						BWAPI::Position EnemyPosition = unit2->getPosition();
+						BWAPI::Position MyPosition = unit->getPosition();
+						BWAPI::Position NextPosition = BWAPI::Positions::None;
+
+						double XValue = (MyPosition.y - EnemyPosition.y) * 10000;
+						double YValue = (MyPosition.x - EnemyPosition.x) * 10000;
+
+						XValue = round(max(min(XValue, BWAPI::Broodwar->mapHeight()), 1));
+						YValue = round(max(min(YValue, BWAPI::Broodwar->mapWidth()), 1));
+
+						NextPosition.x = YValue;
+						NextPosition.y = XValue;
+
+						unit->move(NextPosition);
+						RogerThat = true;
+
+						break;
+					}
+				}	
+				else if (unit2->getType().isFlyer() && unit2->exists()){
+					unit->attack(unit2);					
+					RogerThat = true;
+					break;
 				}
-				CorsairSearchMode = false;
 			}
 
-			
+			if (RogerThat){
+				continue;
+			}
 
-			// If a unit is regenerated and taking a rest, go to the enemy base.
+
 			if (unit->isIdle()){
+				BWAPI::Position MyPosition = unit->getPosition();
+
 				double dist = unit->getDistance(EnemyHomeBase);
 				double dist2 = unit->getDistance(EnemyExpansion);
 
-				// I am already in the enemy base
-				if (dist < 10){
+
+
+				// If you are in the edge
+				if (MyPosition.x < 10 || MyPosition.y < 10){
+					MyPosition.x = 1;
+					MyPosition.y = 1;
+					unit->attack(MyPosition);
+					continue;
+				}
+				// We are already in the zero point
+				else if (MyPosition.x < 10 && MyPosition.y < 10){
+					MyPosition.x = 1;
+					MyPosition.y = BWAPI::Broodwar->mapHeight()-1;
+					unit->attack(MyPosition);					
+					continue;
+				}
+				// We are in the enemy main base
+				else if (dist < 10){
+					// Go get him.
 					unit->attack(EnemyExpansion);
+					continue;
 				}
 				// I am at enemy's expansion
 				else if (dist2 < 10){
 					CorsairSearchMode = true;
+					MyPosition.x = 1;
+					MyPosition.y = 1;
+					unit->attack(MyPosition);
+					continue;
 				}
 				else{
-					// I am at home
-					unit->attack(EnemyHomeBase);
+					RandomDecision = rand() % 10 ;
+
+					if (RandomDecision == 0){
+						unit->attack(EnemyHomeBase);
+						continue;
+					}
+					else if (RandomDecision == 1){
+						BWAPI::Position MyPosition = unit->getPosition();
+						MyPosition.x = BWAPI::Broodwar->mapWidth()-1;
+						MyPosition.y = BWAPI::Broodwar->mapHeight()-1;
+						unit->attack(MyPosition);
+						continue;
+					}
+					else if (RandomDecision == 2){
+						BWAPI::Position MyPosition = unit->getPosition();
+						MyPosition.x = BWAPI::Broodwar->mapWidth() - 1;;
+						MyPosition.y = 1;
+						unit->attack(MyPosition);
+						continue;
+					}
+					else if (RandomDecision == 3){
+						BWAPI::Position MyPosition = unit->getPosition();
+						MyPosition.x = 1;
+						MyPosition.y = BWAPI::Broodwar->mapHeight() - 1;;
+						unit->attack(MyPosition);
+						continue;
+					}
+					else if (RandomDecision == 4){
+						BWAPI::Position MyPosition = unit->getPosition();
+						MyPosition.x = 1;
+						MyPosition.y = 1;
+						unit->attack(MyPosition);
+						continue;
+					}
+					else if (RandomDecision == 5){	
+						unit->attack(homePosition);
+						continue;
+					}
+					else{
+						CorsairSearchMode = true;
+					}
+
 				}
+
 			}
-							
-			// If something is shown, kill them all.
-			if (unit->isMoving()){
-				for (auto & unit2 : BWAPI::Broodwar->enemy()->getUnits()){
-					if (unit2->getType().isFlyer() && unit->exists()){
-						if (unit->isInWeaponRange(unit2) && !unit->isUnderAttack()){
-							unit->attack(unit2);
-							break;
-						}
-						else if (unit2->getType() == BWAPI::UnitTypes::Zerg_Spore_Colony || unit2->getType() == BWAPI::UnitTypes::Zerg_Hydralisk){
-							unit->move(homePosition);
-						}
-						else if (unit->isUnderAttack()){
-							unit->move(homePosition);
-							break;
-						}
-						else{
-							unit->move(unit2->getPosition());
-							break;
-						}
+
+			
+			// Search Mode
+			if (CorsairSearchMode && !SearchingPosition.empty()){
+				BWAPI::Position targetPosition = SearchingPosition.back();
+				unit->attack(targetPosition, true);
+				SearchingPosition.pop_back();
+
+				if (SearchingPosition.empty()){
+					CorsairSearchMode = false;
+					for (BWTA::BaseLocation * startLocation : BWTA::getStartLocations()){
+						BWAPI::Position targetPosition = startLocation->getPosition();
+						SearchingPosition.push_back(targetPosition);
 					}
 				}
+
+
 			}
 		}
 	}
 
-	
 
-	
+	static int lastChecked = 0;
+	if (lastChecked + 1000 < BWAPI::Broodwar->getFrameCount() && !CorsairSquad.empty()){
+		lastChecked = BWAPI::Broodwar->getFrameCount();
+		Broodwar << "Let's reunion." << std::endl;;
+		CorsairSquad.move(homePosition);
+	}
+
+		
 
 
 	

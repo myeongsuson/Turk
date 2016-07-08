@@ -74,7 +74,7 @@ class TheTurk : public BWAPI::AIModule
 	int PylonToChoke = 1;
 
 
-
+	std::vector<BWAPI::Position>	SearchingPosition;
 
 	// ===================================================
 	// Gas Collector Information

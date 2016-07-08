@@ -1,8 +1,10 @@
-﻿Build started 7/7/2016 12:25:05 AM.
+﻿Build started 7/8/2016 1:01:14 AM.
      1>Project "C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\Turk.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src /IC:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2\include /IC:\Users\Duehee\Dropbox\StarComp\BWAPI\include /Zi /nologo /W3 /WX- /sdl- /MP /O2 /Oi /Oy- /GL /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Release\Turk\\" /Fd"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Release\Turk\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Turk.cpp
          Turk.cpp
+     1>..\src\Turk.cpp(593): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
+     1>..\src\Turk.cpp(594): warning C4244: '=' : conversion from 'double' to 'int', possible loss of data
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.dll" /INCREMENTAL:NO /NOLOGO C:\Users\Duehee\Dropbox\StarComp\BWAPI/lib/BWAPI.lib C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/BWTA.lib "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_system-vc120-mt-1_56.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_thread-vc120-mt-1_56.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libCGAL-vc120-mt-4.4.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libgmp-10.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libmpfr-4.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_filesystem-vc120-mt-1_56.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.pdb" /MAP /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /DLL C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Release\Turk\BuildingManager.obj
          C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Release\Turk\Commander.obj
@@ -18,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:13.44
+Time Elapsed 00:00:13.80
