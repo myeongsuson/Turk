@@ -98,6 +98,16 @@ void TheTurk::onStart()
 	// Define building locations
 	BuildingManager::Instance().MapConnector();
 
+
+
+	
+
+
+
+
+
+
+
 	// A set of minerals
 	BWTA::BaseLocation* StartingPoint = BWTA::getStartLocation(BWAPI::Broodwar->self());
 	BWAPI::Unitset FirstMineralSet = MineralCollector(StartingPoint); // 

@@ -13,6 +13,11 @@ namespace Turk {
 		~BuildingManager(){};
 
 
+		// In the beginning of the game, determine the building location
+		void InitialBuildLocSet();
+		std::set<BWAPI::TilePosition> BuildingManager::SubChecker(int, int, std::set<BWAPI::TilePosition>);
+
+
 		//
 		void PythonBuildingLocation();
 
@@ -78,6 +83,12 @@ namespace Turk {
 
 		// Expansion Site
 		std::vector<BWAPI::TilePosition> m_ExpansionLocation;
+
+		// Automatic Building Location Selector
+		std::set<BWAPI::TilePosition>	TileContainer;
+		std::set<BWAPI::TilePosition>	NicePlace1;
+		std::set<BWAPI::TilePosition>	NicePlace2;
+		std::set<BWAPI::TilePosition>	NicePlace3;
 
 
 		// CSC - Why is this here??

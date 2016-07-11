@@ -26,6 +26,105 @@ BuildingManager & BuildingManager::Instance()
 
 
 
+void BuildingManager::InitialBuildLocSet(){
+	int MapWidth = BWAPI::Broodwar->mapWidth();
+	int MapHeight = BWAPI::Broodwar->mapHeight();
+	int count = 0;
+	
+	
+	BWAPI::TilePosition OurStartingTilePos = BWAPI::Broodwar->self()->getStartLocation();
+	BWAPI::Region OurRegion = BWAPI::Broodwar->getRegionAt(BWAPI::Position(OurStartingTilePos));
+			
+	TileContainer.clear();
+	BWAPI::TilePosition BuildingLocation = BWAPI::TilePositions::None;
+	for (int i = 1; i <= MapWidth; i++){
+		for (int j = 1; j <= MapHeight; j++){
+			BuildingLocation.x = i;
+			BuildingLocation.y = j;
+
+			BWAPI::Region TestRegion = BWAPI::Broodwar->getRegionAt(BWAPI::Position(BuildingLocation));
+
+			if (TestRegion == OurRegion && BWAPI::Broodwar->isBuildable(BuildingLocation)){
+				TileContainer.insert(BuildingLocation);
+				count = count + 1;
+			}
+		}
+	}
+
+	// Container 1
+	NicePlace1.clear();
+	NicePlace1 = SubChecker(15, 10, NicePlace1);
+
+	//NicePlace2.clear();
+	//NicePlace2 = SubChecker(8, 10, NicePlace2);
+
+	//NicePlace3.clear();
+	//NicePlace3 = SubChecker(10, 10, NicePlace3);
+	
+	
+}
+
+
+std::set<BWAPI::TilePosition> BuildingManager::SubChecker(int Width, int Height, std::set<BWAPI::TilePosition> Saver){
+	
+	std::set<BWAPI::TilePosition>::iterator iter;
+	BWAPI::TilePosition BuildingLocation = BWAPI::TilePositions::None;
+
+	bool Checker = true;
+	// while (Checker){
+
+		Checker = false;
+		for (iter = TileContainer.begin(); iter != TileContainer.end(); iter++){
+			BuildingLocation = *iter;
+
+			bool NotGood = false;
+			BWAPI::TilePosition TempLocation = BWAPI::TilePositions::None;
+			for (int k = 0; k < Width; k++){
+				for (int m = 0; m < Height; m++){
+					TempLocation.x = BuildingLocation.x + k;
+					TempLocation.y = BuildingLocation.y + m;
+
+					if (!BWAPI::Broodwar->isBuildable(TempLocation)){
+						NotGood = true;
+					}
+				}
+			}
+
+			// We found a nice place
+			if (!NotGood){
+
+				Saver.insert(BuildingLocation);
+
+				BWAPI::TilePosition TempLocation = BWAPI::TilePositions::None;
+				for (int k = 0; k < Width; k++){
+					for (int m = 0; m < Height; m++){
+						TempLocation.x = BuildingLocation.x + k;
+						TempLocation.y = BuildingLocation.y + m;
+
+						std::set<BWAPI::TilePosition>::iterator iter2 = TileContainer.find(TempLocation);
+						TileContainer.erase(iter2);
+					}
+				}
+
+				Checker = true;
+				break;
+
+			}
+		//}
+	}
+
+	return Saver;
+
+}
+
+
+
+
+
+
+
+
+
 void BuildingManager::MapConnector(){
 
 	std::string Mapname = BWAPI::Broodwar->mapName().c_str();
@@ -33,6 +132,9 @@ void BuildingManager::MapConnector(){
 		PythonBuildingLocation();
 	}
 	
+	InitialBuildLocSet();
+
+
 }
 
 
@@ -474,6 +576,15 @@ void BuildingManager::TechBuildingPositioning(const BWAPI::TilePosition & Starti
 
 
 void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWAPI::UnitType & BuildingTarget){
+	
+	std::set<BWAPI::TilePosition>::iterator iter;
+	BWAPI::TilePosition Temp = BWAPI::TilePositions::None;
+
+	for (iter = NicePlace1.begin(); iter != NicePlace1.end(); iter++){
+		Temp = *iter;
+		BWAPI::Broodwar->drawBoxMap(Temp.x, Temp.y, Temp.x + 15, Temp.y + 10, BWAPI::Colors::Red, false);
+
+	}
 	
 	
 	static int lastChecked = 0;
