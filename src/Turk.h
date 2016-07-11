@@ -77,6 +77,9 @@ private:
 	// Make probes work
 	void ProbeWork(int);
 
+	// Gas Assignment
+	void GasWorkerAssign();
+
 	// Scouter managenet
 	void ScoutHander(const BWAPI::Unit & Scout);
 
@@ -92,6 +95,8 @@ private:
 	bool m_FirstAdun = false;
 	bool m_FirstTemplarArchive = false;
 	bool m_FirstFleetBeacon = false;
+	bool m_FirstRobotics = false;
+	bool m_FirstObservatory = false;
 
 
 	// Upgrade Situation: One Time and gone forever
@@ -144,22 +149,31 @@ private:
 	// Building Positions
 	BWAPI::Position m_homePosition;
 	BWAPI::TilePosition m_homeTilePosition;
-	BWAPI::Position m_FirstExpansionPosition;
+	BWAPI::TilePosition m_FirstExpTilePosition;
+	
 	BWAPI::Position m_Campus;
 	BWAPI::Position m_HillPosition;
 	BWAPI::Position m_HillPosition2;
-	BWAPI::TilePosition m_NextExpansion;
 	
+
+
 	// Enemy Building Position
-	BWAPI::Position m_EnemyHomeBase;
-	BWAPI::Position m_EnemyHillPosition;
+	BWAPI::Position m_EnemyHome;
+	BWAPI::TilePosition m_EnemyTileHome;
+
+	
+	BWAPI::TilePosition m_EnemyTileExpansion;
 	BWAPI::Position m_EnemyExpansion;
+
+	BWAPI::Position m_EnemyHillPosition;
 
 
 	// $$$$$$$$$$$$$$$$$$$$
 	// War Flags
 	bool m_CorsairAttackTriger = false;
-	bool m_EnemyBaseUpdate = false;
+	bool m_EnemyBaseUpdate = false;	
+	std::vector<BWAPI::Position>	SearchingPosition;
+
 
 
 	// Units

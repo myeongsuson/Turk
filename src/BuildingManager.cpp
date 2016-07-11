@@ -109,7 +109,7 @@ void BuildingManager::PythonBuildingLocation(){
 
 		// Location of the first pylon		
 		FirstPylonLocation.x = 50;
-		FirstPylonLocation.y = 115;
+		FirstPylonLocation.y = 111;
 		m_PylonTilePosition.push_back(FirstPylonLocation);
 		
 		TempTileLocation.x = FirstPylonLocation.x + Pylon.tileWidth();
@@ -372,7 +372,6 @@ void BuildingManager::TechLocationRemover(){
 
 void BuildingManager::GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BWAPI::TilePosition HomeTilePosition){
 	
-
 	std::map<double, BWAPI::TilePosition> NexusLoc;
 	std::map<double, BWAPI::TilePosition>::iterator i;
 
@@ -402,7 +401,9 @@ void BuildingManager::GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BW
 
 	// Move expansion location in the map to the vector
 	for (i = NexusLoc.begin(); i != NexusLoc.end(); i++){		
-		m_ExpansionLocation.push_back(i->second);
+		BWAPI::TilePosition TempLoc = i->second;
+		BWAPI::Broodwar->sendText("Expansion Location is Updated %.2d : %.2d", TempLoc.x, TempLoc.y);
+		m_ExpansionLocation.push_back(TempLoc);
 	}	
 	
 }
@@ -482,12 +483,20 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 
 		// Get Mr. Builder.
 		if (!MrBuilder){
-			MrBuilder = HeadQuater->getClosestUnit(BWAPI::Filter::IsWorker && (BWAPI::Filter::IsGatheringMinerals || BWAPI::Filter::IsCarryingMinerals),99999);
+			MrBuilder = HeadQuater->getClosestUnit(BWAPI::Filter::IsWorker,999999);
+		}
+
+		BWAPI::TilePosition PossibleTilePosition = HeadQuater->getTilePosition();
+		BWAPI::Unit SecondHeadQuater = HeadQuater->getClosestUnit(BWAPI::Filter::IsResourceDepot && BWAPI::Filter::IsOwned, 999999);
+		if (SecondHeadQuater){
+			PossibleTilePosition = SecondHeadQuater->getTilePosition();
 		}
 
 		// Determine the building locations
 		std::vector<BWAPI::TilePosition>	Position;
 		if (BuildingTarget == Pylon){
+			BWAPI::Broodwar->sendText("Pylon Size %.2d", m_PylonTilePosition.size());
+
 			Position = m_PylonTilePosition;
 		}
 		else if (BuildingTarget == GateWay || BuildingTarget == Stargate){
@@ -507,7 +516,7 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 		// canBuildHere(Position.back(), BuildingTarget) isBuildable(Position.back(), true) 
 		//// Can I build here?
 		while (!Position.empty()){
-			if (BWAPI::Broodwar->canBuildHere(Position.back(), BuildingTarget)){
+			if (BWAPI::Broodwar->isBuildable(Position.back())){ // canBuildHere(Position.back(), BuildingTarget))
 				break;
 			}
 			else{
@@ -518,7 +527,7 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 
 		// There is no possible building location
 		if (Position.empty()){
-			targetBuildLocation = BWAPI::Broodwar->getBuildLocation(BuildingTarget, HeadQuater->getTilePosition(), 32);
+			targetBuildLocation = BWAPI::Broodwar->getBuildLocation(BuildingTarget, PossibleTilePosition, 32);
 			BWAPI::Broodwar->sendText("Location vector is empty %.2d : %.2d", targetBuildLocation.x, targetBuildLocation.y);
 		}
 		// Or we can build it here !!!
@@ -527,13 +536,15 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 			//BWAPI::Broodwar->sendText("Location vector %.2d : %.2d", targetBuildLocation.x, targetBuildLocation.y);
 			// In worst case
 			if (!targetBuildLocation){
-				targetBuildLocation = BWAPI::Broodwar->getBuildLocation(BuildingTarget, HeadQuater->getTilePosition(), 32);
+				targetBuildLocation = BWAPI::Broodwar->getBuildLocation(BuildingTarget, PossibleTilePosition , 32);
 			}
 		}
 	
 
 		// If a builder and location are secured
 		if (MrBuilder && targetBuildLocation){
+
+			BWAPI::Broodwar->isBuildable(targetBuildLocation);
 
 			if (!BWAPI::Broodwar->isExplored(targetBuildLocation) && BuildingTarget.mineralPrice()*0.8 < BWAPI::Broodwar->self()->minerals()){
 				MrBuilder->move(BWAPI::Position(targetBuildLocation));				
