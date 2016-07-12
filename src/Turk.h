@@ -40,6 +40,9 @@ public:
 	
 private:
 
+	bool Initiate = true;
+
+
 	// map analysis
 	bool m_analyzed;
 	bool m_analysis_just_finished;

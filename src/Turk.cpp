@@ -189,6 +189,10 @@ void TheTurk::onFrame(){
 	}
 
 
+
+
+
+
 	// Prevent spamming by only running our onFrame once every number of latency frames.
 	// Latency frames are the number of frames before commands are processed.
 	if (Broodwar->getFrameCount() % Broodwar->getLatencyFrames() != 0)
@@ -793,7 +797,7 @@ void TheTurk::onUnitCreate(BWAPI::Unit unit)
 
 		// Print the Target Building
 		TilePosition targetBuildLocation = unit->getTilePosition();
-		Broodwar->sendText("%.2d %.2d / Unit: %s", targetBuildLocation.x, targetBuildLocation.y, unit->getType().c_str());
+		//Broodwar->sendText("%.2d %.2d / Unit: %s", targetBuildLocation.x, targetBuildLocation.y, unit->getType().c_str());
 
 		// Realease the MrBuilder
 		BuildingManager::Instance().MrBuilderRemover();
