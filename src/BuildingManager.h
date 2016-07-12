@@ -89,6 +89,7 @@ namespace Turk {
 		std::set<BWAPI::TilePosition>	NicePlace1;
 		std::set<BWAPI::TilePosition>	NicePlace2;
 		std::set<BWAPI::TilePosition>	NicePlace3;
+		std::set<BWAPI::TilePosition>	NicePlace4;
 
 
 		// CSC - Why is this here??
