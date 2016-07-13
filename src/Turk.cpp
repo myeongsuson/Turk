@@ -113,7 +113,7 @@ void TheTurk::onStart()
 	BWAPI::Unitset FirstMineralSet = MineralCollector(StartingPoint); // 
 		
 	// Add locations of pylons for defence.
-	BuildingManager::Instance().DefensePylonLocation(FirstMineralSet);
+	// BuildingManager::Instance().DefensePylonLocation(FirstMineralSet);
 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 
 
@@ -269,12 +269,15 @@ void TheTurk::onFrame(){
 
 
 	// $$$$$$$    Nexux Building: Expansion Team $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-	// Expansion Plans --> Might be moved to the ExpansionManager.	 
-	if (UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400){  // First Triger & Overall Game Land Trigger
-		//BuildingManager::Instance().GetExpansionBase(TilePosition(EnemyHomeBase), homeTilePosition);
-		BuildingManager::Instance().BuildingFunction(ResourceDepot, Nexus);
-	}
+	// Expansion Plans --> Might be moved to the ExpansionManager.
 
+	if (Broodwar->getFrameCount() % 2000 == 0){
+		if (UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400){  // First Triger & Overall Game Land Trigger
+			//BuildingManager::Instance().GetExpansionBase(TilePosition(EnemyHomeBase), homeTilePosition);
+			BuildingManager::Instance().BuildingFunction(ResourceDepot, Nexus);
+		}
+	}
+	
 	// ###############################################################################################################################################
 
 
@@ -799,86 +802,48 @@ void TheTurk::onUnitCreate(BWAPI::Unit unit)
 		TilePosition targetBuildLocation = unit->getTilePosition();
 		//Broodwar->sendText("%.2d %.2d / Unit: %s", targetBuildLocation.x, targetBuildLocation.y, unit->getType().c_str());
 
-		// Realease the MrBuilder
+		// Realease the MrBuilder		
 		BuildingManager::Instance().MrBuilderRemover();
 
 
-		std::vector<BWAPI::TilePosition>	TilePositionOfBuilding;
-		TilePosition ScheduledLocation = BWAPI::TilePositions::None;
+		// Removed the location of built building.
+		// BuildingManager::Instance().LocationRemover(unit);
+
 		
-
-		if (unit->getType() == Pylon){
-			TilePositionOfBuilding = BuildingManager::Instance().PylonSetPresent();		
-
-
-			if (!TilePositionOfBuilding.empty()){
-				ScheduledLocation = TilePositionOfBuilding.back();
-				if (ScheduledLocation = targetBuildLocation){
-					BuildingManager::Instance().PylonLocationRemover();
-				}
-			}
-		}
-		else if ( (unit->getType() == GateWay) || (unit->getType() == StarGate) ){
-			TilePositionOfBuilding = BuildingManager::Instance().PylonSetPresent();
-
-			if (!TilePositionOfBuilding.empty()){
-				ScheduledLocation = TilePositionOfBuilding.back();
-				if (ScheduledLocation = targetBuildLocation){
-					BuildingManager::Instance().GateWayLocationRemover();
-				}
-			}
-		}
-		else if (unit->getType().tileWidth() == 3 && unit->getType().tileHeight() == 2){
-			TilePositionOfBuilding = BuildingManager::Instance().TechSetPresent();
-
-			if (!TilePositionOfBuilding.empty()){
-				ScheduledLocation = TilePositionOfBuilding.back();
-				if (ScheduledLocation = targetBuildLocation){		
-					BuildingManager::Instance().TechLocationRemover();
-				}
-			}
-		}
-		else if (unit->getType() == Nexus && Broodwar->getFrameCount()> 100 ){
-			TilePositionOfBuilding = BuildingManager::Instance().NexusSetPresent();
-
-			if (!TilePositionOfBuilding.empty()){
-				ScheduledLocation = TilePositionOfBuilding.back();
-				if (ScheduledLocation = targetBuildLocation){
-					BuildingManager::Instance().NexusLocationRemover();
-				}
-			}
-
+		
+		BWAPI::TilePosition TempTilePosition = unit->getTilePosition();
+		if (unit->getType() == Nexus && Broodwar->getFrameCount()> 100 ){
 			// First Expansion Action
 			Broodwar << "Expansion ! " << std::endl;
 			m_MaxGateWayCount = 5;
 			m_MaxWorkerCount = 40;
 
-			// Build More Pylons
-			std::vector<BWAPI::TilePosition>	PylonTilePosition = BuildingManager::Instance().PylonSetPresent();
-			PylonTilePosition.push_back(BWAPI::Broodwar->getBuildLocation(Pylon, TilePosition(m_HillPosition2), 12));
+			//// Build More Pylons
+			//std::vector<BWAPI::TilePosition>	PylonTilePosition = BuildingManager::Instance().PylonSetPresent();
+			//PylonTilePosition.push_back(BWAPI::Broodwar->getBuildLocation(Pylon, TilePosition(m_HillPosition2), 12));
 
-			BWAPI::TilePosition TempTilePosition = TilePosition(m_HillPosition2);
-			TempTilePosition.x = TempTilePosition.x + 4;
-			TempTilePosition.x = TempTilePosition.x + 4;
+			//BWAPI::TilePosition TempTilePosition = TilePosition(m_HillPosition2);
+			//TempTilePosition.x = TempTilePosition.x + 4;
+			//TempTilePosition.x = TempTilePosition.x + 4;
 
-			BWAPI::TilePosition BuildingLoc = BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12);
-			while (1){
-				if (!BWAPI::Broodwar->canBuildHere(BuildingLoc, Pylon)){
-					BuildingLoc = BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12);
-				}
-				else{
-					break;
-				}
-			}
-			PylonTilePosition.push_back(BuildingLoc);
+			//BWAPI::TilePosition BuildingLoc = BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12);
+			//while (1){
+			//	if (!BWAPI::Broodwar->canBuildHere(BuildingLoc, Pylon)){
+			//		BuildingLoc = BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12);
+			//	}
+			//	else{
+			//		break;
+			//	}
+			//}
+			//PylonTilePosition.push_back(BuildingLoc);
 
-			TempTilePosition = unit->getTilePosition();
-			TempTilePosition.x = TempTilePosition.x + 4;
-			TempTilePosition.x = TempTilePosition.x + 4;
+			//TempTilePosition = unit->getTilePosition();
+			//TempTilePosition.x = TempTilePosition.x + 4;
+			//TempTilePosition.x = TempTilePosition.x + 4;
 
-			PylonTilePosition.push_back(BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12));
+			//PylonTilePosition.push_back(BWAPI::Broodwar->getBuildLocation(Pylon, TempTilePosition, 12));
 
-			BuildingManager::Instance().PylonLocationSaver(PylonTilePosition);
+			//BuildingManager::Instance().PylonLocationSaver(PylonTilePosition);
 
 
 			// Set the New ChokeLines

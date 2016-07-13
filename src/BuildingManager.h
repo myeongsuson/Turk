@@ -47,21 +47,25 @@ namespace Turk {
 		const BWAPI::TilePosition & PylonLocationPresent();
 		const std::vector<BWAPI::TilePosition> & PylonSetPresent();
 		void PylonLocationSaver(const std::vector<BWAPI::TilePosition> &);
-		void PylonLocationRemover();
+		void PylonLocationRemover(BWAPI::TilePosition);
 
 		// GateWay Location Handler
 		const std::vector<BWAPI::TilePosition> & GateWayLocationPresent();
 		void GateWayLocationSaver(const std::vector<BWAPI::TilePosition> &);
-		void GateWayLocationRemover();
+		void GateWayLocationRemover(BWAPI::TilePosition);
 
 		// Tech Building Locations
 		const BWAPI::TilePosition & TechLocationPresent();
 		const std::vector<BWAPI::TilePosition> & TechSetPresent();
 		void TechLocationSaver(const std::vector<BWAPI::TilePosition> &);
-		void TechLocationRemover();
+		void TechLocationRemover(BWAPI::TilePosition);
 
 		const std::vector<BWAPI::TilePosition> & NexusSetPresent();
-		void NexusLocationRemover();
+		void NexusLocationRemover(BWAPI::TilePosition);
+
+		void LocationRemover(BWAPI::Unit);
+
+
 
 		void GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BWAPI::TilePosition HomeTilePositio);
 
@@ -90,6 +94,7 @@ namespace Turk {
 		std::set<BWAPI::TilePosition>	NicePlace2;
 		std::set<BWAPI::TilePosition>	NicePlace3;
 		std::set<BWAPI::TilePosition>	NicePlace4;
+		std::set<BWAPI::TilePosition>	NicePlace5;
 
 
 		// CSC - Why is this here??
