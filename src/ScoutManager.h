@@ -31,6 +31,11 @@ namespace Turk {
 		// Get Scout Roots in a map
 		void GetStartingPoint();
 
+		// Get Base Location
+		void GetBasePoint();
+
+		// Observer Manager
+		void ObserverManager(BWAPI::Unitset);
 
 		static ScoutManager &Instance();
 
@@ -42,6 +47,7 @@ namespace Turk {
 		// Scouter Scouting Root
 		std::vector<BWAPI::Position>	m_ScoutRotationRoot;
 		std::vector<BWAPI::Position>	m_StartingPosition;
+		std::vector<BWAPI::Position>	m_BasePosition;
 
 		bool RoutInitiate = false;
 		bool UnderJourney = false;

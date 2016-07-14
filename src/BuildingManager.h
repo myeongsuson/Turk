@@ -63,9 +63,11 @@ namespace Turk {
 		const std::vector<BWAPI::TilePosition> & NexusSetPresent();
 		void NexusLocationRemover(BWAPI::TilePosition);
 
+		// Remove the building locations from the vector
 		void LocationRemover(BWAPI::Unit);
 
-
+		// Plot building locations
+		void BuildingLocDrawer();
 
 		void GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BWAPI::TilePosition HomeTilePositio);
 
@@ -95,6 +97,8 @@ namespace Turk {
 		std::set<BWAPI::TilePosition>	NicePlace3;
 		std::set<BWAPI::TilePosition>	NicePlace4;
 		std::set<BWAPI::TilePosition>	NicePlace5;
+		std::set<BWAPI::TilePosition>	NicePlace6;
+		std::set<BWAPI::TilePosition>	NicePlace7;
 
 
 		// CSC - Why is this here??
@@ -104,8 +108,7 @@ namespace Turk {
 		BWAPI::UnitType Nexus = BWAPI::UnitTypes::Protoss_Nexus;
 		BWAPI::UnitType Assimilator = BWAPI::UnitTypes::Protoss_Assimilator;
 		BWAPI::UnitType Forge = BWAPI::UnitTypes::Protoss_Forge;
-		BWAPI::UnitType Cybernetics = BWAPI::UnitTypes::Protoss_Cybernetics_Core;
-		BWAPI::UnitType CitadelOfAdun = BWAPI::UnitTypes::Protoss_Citadel_of_Adun;
+		BWAPI::UnitType Cybernetics = BWAPI::UnitTypes::Protoss_Cybernetics_Core;		
 		BWAPI::UnitType TemplerArchive = BWAPI::UnitTypes::Protoss_Templar_Archives;
 		BWAPI::UnitType Stargate = BWAPI::UnitTypes::Protoss_Stargate;
 

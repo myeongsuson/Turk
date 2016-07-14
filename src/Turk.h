@@ -52,6 +52,14 @@ private:
 	BWAPI::Unitset m_BaseUnits;
 	BWAPI::Unitset m_WorkerUnits;
 	BWAPI::Unitset m_ScoutUnits;
+	BWAPI::Unitset m_HighTemUnits;
+	BWAPI::Unitset m_ArchonUnits;
+	BWAPI::Unitset m_ZealotUnits;
+	BWAPI::Unitset m_DragooUnits;
+	BWAPI::Unitset m_CorsairUnits;
+
+
+
 
 	// A set of minerals: It is initiated at every starting and expansion
 	BWAPI::Unitset m_MineralSets;
@@ -161,14 +169,13 @@ private:
 
 
 	// Enemy Building Position
-	BWAPI::Position m_EnemyHome;
-	BWAPI::TilePosition m_EnemyTileHome;
-
+	BWAPI::Position m_EnemyHome = BWAPI::Positions::None;
+	BWAPI::TilePosition m_EnemyTileHome = BWAPI::TilePositions::None;
 	
-	BWAPI::TilePosition m_EnemyTileExpansion;
-	BWAPI::Position m_EnemyExpansion;
+	BWAPI::TilePosition m_EnemyTileExpansion = BWAPI::TilePositions::None;
+	BWAPI::Position m_EnemyExpansion = BWAPI::Positions::None;
 
-	BWAPI::Position m_EnemyHillPosition;
+	BWAPI::Position m_EnemyHillPosition = BWAPI::Positions::None;
 
 
 	// $$$$$$$$$$$$$$$$$$$$

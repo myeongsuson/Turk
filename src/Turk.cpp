@@ -80,9 +80,6 @@ void TheTurk::onStart()
 			m_HillPosition2 = Choke->getCenter();
 		}
 	}
-
-
-
 	// $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 
@@ -103,17 +100,12 @@ void TheTurk::onStart()
 	
 
 
-
-
-
-
-
 	// A set of minerals
 	BWTA::BaseLocation* StartingPoint = BWTA::getStartLocation(BWAPI::Broodwar->self());
 	BWAPI::Unitset FirstMineralSet = MineralCollector(StartingPoint); // 
 		
 	// Add locations of pylons for defence.
-	// BuildingManager::Instance().DefensePylonLocation(FirstMineralSet);
+	BuildingManager::Instance().DefensePylonLocation(FirstMineralSet);
 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 
 
@@ -242,7 +234,7 @@ void TheTurk::onFrame(){
 	}	
 	
 
-	// Build the first GateWay after the first pylon
+	// Build the first GateWay after the first pylon. Keep Build !
 	if (UnitCount["Pylon_Count"] >= 1 && UnitCount["GateWay_Count"] < m_MaxGateWayCount){
 		//BWAPI::Broodwar->sendText("Number of Gates,  %.2d", m_MaxGateWayCount);
 		
@@ -271,8 +263,8 @@ void TheTurk::onFrame(){
 	// $$$$$$$    Nexux Building: Expansion Team $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	// Expansion Plans --> Might be moved to the ExpansionManager.
 
-	if (Broodwar->getFrameCount() % 2000 == 0){
-		if (UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400){  // First Triger & Overall Game Land Trigger
+	if (Broodwar->getFrameCount() % 20 == 0){
+		if (UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400 && m_UnitCount["Nexus_Count"]<4){  // First Triger & Overall Game Land Trigger
 			//BuildingManager::Instance().GetExpansionBase(TilePosition(EnemyHomeBase), homeTilePosition);
 			BuildingManager::Instance().BuildingFunction(ResourceDepot, Nexus);
 		}
@@ -360,9 +352,7 @@ void TheTurk::onFrame(){
 			// These infomation does not change in the game.
 			m_EnemyHillPosition = BWTA::getNearestChokepoint(m_EnemyTileHome)->getCenter();
 			m_EnemyTileExpansion = BWTA::getNearestBaseLocation(m_EnemyHillPosition)->getTilePosition();
-			m_EnemyTileExpansion.x = m_EnemyTileExpansion.x ;
-			m_EnemyTileExpansion.y = m_EnemyTileExpansion.y ;
-
+			
 			m_EnemyExpansion = BWAPI::Position(m_EnemyTileExpansion);
 		}
 	}
@@ -413,31 +403,92 @@ void TheTurk::onFrame(){
 			else{
 				unit->train(BWAPI::UnitTypes::Protoss_Zealot);
 			}
-
 			
-
 		}
 
 		if (unit->isIdle() && unit->getType() == StarGate){
 			unit->rightClick(m_Campus);
-			if (m_UnitCount["Corsair_Count"] <= 3){
+			if (m_UnitCount["Corsair_Count"] <=12){
 				unit->train(BWAPI::UnitTypes::Protoss_Corsair);
 			}			
 		}
+
+
+
+
 	}
 
+	// Observer Generator
+	ScoutManager::Instance().ObserverManager(m_ValidUnits);
+
+
+
+
+	// Archon generator
+	if (UnitCount["HighTempler_Count"] > 6){
+		for (auto & unit : m_HighTemUnits){
+			for (auto & unit2 : m_HighTemUnits){
+				if (unit != unit2 && !unit->isMoving() && !unit2->isMoving()){
+					unit->useTech(BWAPI::TechTypes::Archon_Warp, unit2);
+				}
+			}
+		}
+	}
 	
 
 
 
 
+	// Attack
+	if (BWAPI::Broodwar->self()->supplyUsed() / 2 > 180 && m_EnemyHome){
+		m_ZealotUnits.attack(m_EnemyHome);
+		m_DragooUnits.attack(m_EnemyHome);
+		m_ArchonUnits.attack(m_EnemyHome);
+		m_HighTemUnits.attack(m_EnemyHome);
+	}
+	else if (BWAPI::Broodwar->self()->supplyUsed() / 2 > 120 && BWAPI::Broodwar->self()->supplyUsed() / 2 < 128){
+		BWAPI::Position CenterPoint((Broodwar->mapHeight()) * 16, (Broodwar->mapWidth()) * 16);
+		m_ZealotUnits.attack(CenterPoint);
+		m_DragooUnits.attack(CenterPoint);
+		m_ArchonUnits.attack(CenterPoint);
+		m_HighTemUnits.attack(CenterPoint);
+	}
+		
+
+	//while (highTemplars.size() > 1)
+	//{
+	//	std::set<BWAPI::Unit*>::iterator ht1 = highTemplars.begin();
+	//	std::set<BWAPI::Unit*>::reverse_iterator ht2 = highTemplars.rbegin();
+	//	(*ht1)->useTech(BWAPI::TechTypes::Archon_Warp, (*ht2));
+	//	highTemplars.erase(*ht1);
+	//	highTemplars.erase(*ht2);
+	//}
 
 
 
 
 
-	BWAPI::Unitset CorsairSquad;
-	CorsairSquad.clear();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	int RandomDecision = 0;
 
@@ -447,7 +498,6 @@ void TheTurk::onFrame(){
 	for (auto & unit : UnitSetPresent()){
 		bool RogerThat = false;
 		if (unit->getType() == Corsair){
-			CorsairSquad.insert(unit);
 
 			// CorsairSquad.mor
 
@@ -604,10 +654,10 @@ void TheTurk::onFrame(){
 
 
 	static int lastChecked = 0;
-	if (lastChecked + 1000 < BWAPI::Broodwar->getFrameCount() && !CorsairSquad.empty()){
+	if (lastChecked + 1000 < BWAPI::Broodwar->getFrameCount() && !m_CorsairUnits.empty()){
 		lastChecked = BWAPI::Broodwar->getFrameCount();
 		Broodwar << "Let's reunion." << std::endl;;
-		CorsairSquad.move(m_homePosition);
+		m_CorsairUnits.move(m_homePosition);
 	}
 
 
@@ -657,6 +707,7 @@ void TheTurk::onFrame(){
 		if (unit->canResearch(true) && !unit->isResearching()){
 			if (unit->getType() == FleetBeacon){
 				unit->research(BWAPI::TechTypes::Disruption_Web);
+				unit->upgrade(BWAPI::UpgradeTypes::Argus_Jewel);
 			}
 
 		}		
@@ -807,7 +858,7 @@ void TheTurk::onUnitCreate(BWAPI::Unit unit)
 
 
 		// Removed the location of built building.
-		// BuildingManager::Instance().LocationRemover(unit);
+		BuildingManager::Instance().LocationRemover(unit);
 
 		
 		
@@ -815,7 +866,7 @@ void TheTurk::onUnitCreate(BWAPI::Unit unit)
 		if (unit->getType() == Nexus && Broodwar->getFrameCount()> 100 ){
 			// First Expansion Action
 			Broodwar << "Expansion ! " << std::endl;
-			m_MaxGateWayCount = 5;
+			m_MaxGateWayCount = 8;
 			m_MaxWorkerCount = 40;
 
 			//// Build More Pylons
@@ -909,9 +960,7 @@ void TheTurk::onSaveGame(std::string gameName)
 void TheTurk::onUnitComplete(BWAPI::Unit unit)
 {
 	if (unit->getType().isBuilding() && !unit->getPlayer()->isNeutral())
-	{
-		
-
+	{	
 
 		std::map<std::string, int>	UnitCount;
 		UnitCount = UnitCounterPresenter();
@@ -984,11 +1033,18 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 	int Dragoon_Count = 0;
 	int Corsair_Count = 0;
 	int HighTempler_Count = 0;
+	int Archon_Count = 0;
 
 
 	m_ValidUnits.clear();
 	m_BaseUnits.clear();
 	m_WorkerUnits.clear();
+	m_ZealotUnits.clear();
+	m_DragooUnits.clear();
+	m_HighTemUnits.clear();
+	m_CorsairUnits.clear();
+	m_ArchonUnits.clear();
+
 
 	for (auto &unit : BWAPI::Broodwar->self()->getUnits()){
 		if (IsValidUnit(unit)){
@@ -1000,24 +1056,24 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 				Nexus_Count = Nexus_Count + 1;
 			}
 			else if (unit->getType().isWorker()){
-				m_WorkerUnits.insert(unit);
-
 				Probe_Count = Probe_Count + 1;
+				m_WorkerUnits.insert(unit);				
 			}
 
 			// Unit Counts
-			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Zealot)
-			{
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Zealot){
 				Zealot_Count = Zealot_Count + 1;
+				m_ZealotUnits.insert(unit);
 			}
-			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Dragoon)
-			{
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Dragoon){
 				Dragoon_Count = Dragoon_Count + 1;
+				m_DragooUnits.insert(unit);
 			}
-			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Corsair)
-			{
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Corsair){
 				Corsair_Count = Corsair_Count + 1;
+				m_CorsairUnits.insert(unit);
 			}
+
 			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Pylon)
 			{
 				Pylon_Count = Pylon_Count + 1;
@@ -1031,7 +1087,13 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 			}
 			else if (unit->getType() == BWAPI::UnitTypes::Protoss_High_Templar){
 				HighTempler_Count = HighTempler_Count + 1;
+				m_HighTemUnits.insert(unit);
 			}
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Archon){
+				Archon_Count = Archon_Count + 1;
+				m_ArchonUnits.insert(unit);
+			}
+
 		}
 	}
 	if (ScouterUnit){
@@ -1043,6 +1105,7 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 	m_UnitCount["Dragoon_Count"] = Dragoon_Count;
 	m_UnitCount["Corsair_Count"] = Corsair_Count;
 	m_UnitCount["HighTempler_Count"] = HighTempler_Count;
+	m_UnitCount["Archon_Count"] = Archon_Count;
 
 	m_UnitCount["Pylon_Count"] = Pylon_Count;
 	m_UnitCount["GateWay_Count"] = GateWay_Count;

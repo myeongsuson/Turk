@@ -105,6 +105,24 @@ void ScoutManager::GetStartingPoint(){
 
 
 
+void ScoutManager::GetBasePoint(){
+
+	m_BasePosition.clear();
+	// All Starting Positions without island	
+	for (BWTA::BaseLocation * baseLocation : BWTA::getBaseLocations()){
+		if (!baseLocation->isIsland()){
+			BWAPI::Position targetPosition = baseLocation->getPosition();
+			m_BasePosition.push_back(targetPosition);
+		}
+	}
+
+}
+
+
+
+//BWAPI::Broodwar->sendText("Enemy Polygon Size %d", EnemyPolygon.size());
+
+
 
 void ScoutManager::GetScoutRoots(BWAPI::Position EnemyHomeBase){
 	
@@ -113,7 +131,7 @@ void ScoutManager::GetScoutRoots(BWAPI::Position EnemyHomeBase){
 
 	// Get polygons vectors;
 	BWTA::Polygon EnemyPolygon = BWTA::getRegion(EnemyHomeBase)->getPolygon();
-	BWAPI::Broodwar->sendText("Enemy Polygon Size %d", EnemyPolygon.size());
+	
 
 	// getPerimeter Initially
 	m_ScoutRotationRoot.clear();
@@ -121,8 +139,6 @@ void ScoutManager::GetScoutRoots(BWAPI::Position EnemyHomeBase){
 	int SamplingRate = 8; // PolygonSize / OurRootSize
 	for (size_t j = 0; j < PolygonSize; ++j) {		
 		if (j % SamplingRate == 0){
-
-			BWAPI::Broodwar->sendText("Period %d", j);
 
 			BWAPI::Position TempPosition1 = EnemyPolygon[j];
 			BWAPI::Position TempPosition2 = EnemyPolygon[j];
@@ -135,7 +151,7 @@ void ScoutManager::GetScoutRoots(BWAPI::Position EnemyHomeBase){
 		
 	}
 
-	BWAPI::Broodwar->sendText("Enemy new Polygon Size %.2d", m_ScoutRotationRoot.size());
+	// BWAPI::Broodwar->sendText("Enemy new Polygon Size %.2d", m_ScoutRotationRoot.size());
 
 }
 
@@ -147,8 +163,14 @@ void ScoutManager::ScoutActionUpdate(BWAPI::TilePosition EnemyTileHome){
 	BWAPI::TilePosition m_EnemyTileExpansion = BWTA::getNearestBaseLocation(m_EnemyHillPosition)->getTilePosition();
 	BWAPI::Position m_EnemyExpansion = BWAPI::Position(m_EnemyTileExpansion);
 
+
+	//BWAPI::Broodwar->sendText("Under the journey %.2d", UnderJourney);
+
+
 	// Top Priority: Whatch out enemy's defense tower
 	if (!UnderJourney){
+
+		// First thing is to watch out enemy base
 		for (auto & unit : BWAPI::Broodwar->enemy()->getUnits()){
 			// I can see the omen of detecting buildings.
 			if (unit->getType() == BWAPI::UnitTypes::Zerg_Creep_Colony){
@@ -162,6 +184,7 @@ void ScoutManager::ScoutActionUpdate(BWAPI::TilePosition EnemyTileHome){
 					BWAPI::Broodwar->sendText("Sunken Colony is detected");
 					// It is enough. Run Away.
 					UnderJourney = true;
+					RoutInitiate = false; // It is time to journey, so do not walk around enemy base.
 
 					// Run a way to a center
 					BWAPI::Position Center = BWAPI::Positions::None;
@@ -217,31 +240,31 @@ void ScoutManager::ScoutActionUpdate(BWAPI::TilePosition EnemyTileHome){
 		}		
 		// Go around
 		else if (UnderJourney){
-			static int lastChecked = 0;
-			if (lastChecked + 300 < BWAPI::Broodwar->getFrameCount()){
-				lastChecked = BWAPI::Broodwar->getFrameCount();
+			RoutInitiate = false;
 
-				if (m_StartingPosition.empty()){
-					GetStartingPoint();
-				}
-				// Start to search
-				BWAPI::Position targetPosition = m_StartingPosition.back();
+			BWAPI::Broodwar->sendText("We are in the under journey");
 
-				// We don't have to visit enemy site again. It is a suicide mission.
-				if (targetPosition == EnemyPosition){
-					m_StartingPosition.pop_back();
-					targetPosition = m_StartingPosition.back();
-				}
-
-				BWAPI::Broodwar->sendText("Under Journey. Please move to this position %.2d %.2d", targetPosition.x, targetPosition.y);
-
-				m_Scouter->move(targetPosition);
-				m_StartingPosition.pop_back();
-								
-
-				return;
+			if (m_BasePosition.empty()){
+				GetBasePoint();
 			}
-			
+
+			// Start to search
+			BWAPI::Position targetPosition = m_BasePosition.back();
+
+			// We don't have to visit enemy site again. It is a suicide mission.
+			if (targetPosition == EnemyPosition || targetPosition == m_EnemyExpansion){
+				BWAPI::Broodwar->sendText("This is enemy base %.2d %.2d", EnemyPosition.x, EnemyPosition.y);
+
+				m_BasePosition.pop_back();
+				targetPosition = m_BasePosition.back();
+			}
+
+			BWAPI::Broodwar->sendText("Under Journey. Please move to this position %.2d %.2d", targetPosition.x, targetPosition.y);
+
+			m_Scouter->move(targetPosition);
+			m_BasePosition.pop_back();
+
+			return;			
 		}
 		// We are in the enemy base, but nothing happen
 				
@@ -265,9 +288,50 @@ void ScoutManager::ScoutActionUpdate(BWAPI::TilePosition EnemyTileHome){
 		}
 	}
 
+	
+	return;
 
+
+}
+
+
+
+
+
+void ScoutManager::ObserverManager(BWAPI::Unitset ValidUnitSet){
+
+
+	int Observer_Count = 0;
+	
+	// Calculate the number of observers and attach it.
+	for (auto & unit : ValidUnitSet){
+		if (unit->getType() == BWAPI::UnitTypes::Protoss_Observer){
+			Observer_Count = Observer_Count + 1;
+
+			/// Follow units
+			BWAPI::Unit ClosetOne = unit->getClosestUnit(BWAPI::Filter::GetType == BWAPI::UnitTypes::Protoss_Dragoon && BWAPI::Filter::IsOwned);
+			unit->follow(ClosetOne);
+
+		}
+	}
+
+
+	if (Observer_Count < 5){
+		for (auto & unit : ValidUnitSet){
+			if (unit->getType().isBuilding()){
+				if (unit->isIdle() && unit->getType() == BWAPI::UnitTypes::Protoss_Robotics_Facility){
+					unit->train(BWAPI::UnitTypes::Protoss_Observer); 
+					return;
+				}
+			}
+		}
+	}
 
 	
+
+
+
+
 
 
 
