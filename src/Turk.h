@@ -2,6 +2,8 @@
 
 #include "BuildingManager.h"
 #include "ScoutManager.h"
+#include "InformationManager.h"
+#include "CombatManager.h"
 #include "Common.h"
 
 
@@ -35,9 +37,17 @@ public:
 	virtual void onUnitRenegade(BWAPI::Unit unit);
 	virtual void onSaveGame(std::string gameName);
 	virtual void onUnitComplete(BWAPI::Unit unit);
-	void drawTerrainData();
+
 	// Everything below this line is safe to modify.
 	
+	void drawTerrainData();
+
+
+
+
+	static TheTurk &Instance();
+
+
 private:
 
 	bool Initiate = true;
@@ -47,35 +57,18 @@ private:
 	bool m_analyzed;
 	bool m_analysis_just_finished;
 
-	// Taken from Commander
-	BWAPI::Unitset m_ValidUnits;
-	BWAPI::Unitset m_BaseUnits;
-	BWAPI::Unitset m_WorkerUnits;
-	BWAPI::Unitset m_ScoutUnits;
-	BWAPI::Unitset m_HighTemUnits;
-	BWAPI::Unitset m_ArchonUnits;
-	BWAPI::Unitset m_ZealotUnits;
-	BWAPI::Unitset m_DragooUnits;
-	BWAPI::Unitset m_CorsairUnits;
 
-
-
-
+	
 	// A set of minerals: It is initiated at every starting and expansion
 	BWAPI::Unitset m_MineralSets;
 	
-	std::map<std::string, int>	m_UnitCount;
 
-	// Unit Collector
-	void ValidUnitCollector(const BWAPI::Unit &);
-	bool IsValidUnit(const BWAPI::Unit &);
-	const std::map<std::string, int> & UnitCounterPresenter();
+	
+	
 
 	const BWAPI::Unitset & MineralCollector(const BWTA::BaseLocation * StartingPoint);
 	const BWAPI::Unitset & MineralPresent();
-	const BWAPI::Unitset & UnitSetPresent();
-	const BWAPI::Unitset & BasePresent();
-	const BWAPI::Unitset & WorkerPresent();
+
 
 
 	// Save the locations of minerals around our bases
@@ -83,24 +76,20 @@ private:
 
 	// A resource depot is a Command Center, Nexus, or Hatchery
 	// A resource depot will generate workers up to the maximum number of workers
-	void ProbeMaker(unsigned);
+	void ProbeMaker(const BWAPI::Unitset &);
 
 	// Make probes work
 	void ProbeWork(int);
 
 	// Gas Assignment
-	void GasWorkerAssign();
-
-	// Scouter managenet
-	void ScoutHander(const BWAPI::Unit & Scout);
-
+	void GasWorkerAssign(const BWAPI::Unitset &);
+	
 	// 
 	const std::map<std::string, int> & UnitCounter();
 	// end of commander section
 
 	// Check the Build Order Miles Stone
-	bool m_FirstExpansion = false;
-	bool m_FirstGasExist = false;
+	bool m_FirstExpansion = false;	
 	bool m_FirstCybernetics = false;
 	bool m_FirstForge = false;
 	bool m_FirstAdun = false;
@@ -109,14 +98,10 @@ private:
 	bool m_FirstRobotics = false;
 	bool m_FirstObservatory = false;
 
-
-	// Upgrade Situation: One Time and gone forever
-	bool m_Singularity = false;
-	bool m_Leg_Enhancements = false;
 	
 	// Scouting Information
 	bool m_EnemyDetection = false;
-	bool m_CorsairSearchMode = false;
+	
 
 
 	// CSC - Why???
@@ -182,7 +167,6 @@ private:
 	// War Flags
 	bool m_CorsairAttackTriger = false;
 	bool m_EnemyBaseUpdate = false;	
-	std::vector<BWAPI::Position>	SearchingPosition;
 
 
 

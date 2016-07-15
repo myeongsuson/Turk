@@ -12,13 +12,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\BuildingManager.cpp" />
+    <ClCompile Include="..\src\CombatManager.cpp" />
     <ClCompile Include="..\src\Dll.cpp" />
+    <ClCompile Include="..\src\ExpansionManager.cpp" />
     <ClCompile Include="..\src\InformationManager.cpp" />
     <ClCompile Include="..\src\ScoutManager.cpp" />
     <ClCompile Include="..\src\Turk.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\BuildingManager.h" />
+    <ClInclude Include="..\src\CombatManager.h" />
+    <ClInclude Include="..\src\ExpansionManager.h" />
     <ClInclude Include="..\src\InformationManager.h" />
     <ClInclude Include="..\src\ScoutManager.h" />
     <ClInclude Include="..\src\Turk.h" />

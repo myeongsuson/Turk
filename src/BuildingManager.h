@@ -110,8 +110,7 @@ namespace Turk {
 		BWAPI::UnitType Forge = BWAPI::UnitTypes::Protoss_Forge;
 		BWAPI::UnitType Cybernetics = BWAPI::UnitTypes::Protoss_Cybernetics_Core;		
 		BWAPI::UnitType TemplerArchive = BWAPI::UnitTypes::Protoss_Templar_Archives;
-		BWAPI::UnitType Stargate = BWAPI::UnitTypes::Protoss_Stargate;
-
+		
 		// Units
 		BWAPI::UnitType Zealot = BWAPI::UnitTypes::Protoss_Zealot;
 		BWAPI::UnitType Dragoon = BWAPI::UnitTypes::Protoss_Dragoon;

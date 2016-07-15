@@ -376,7 +376,7 @@ void BuildingManager::LocationRemover(BWAPI::Unit unit){
 	if (unit->getType() == Pylon){
 		Position = m_PylonTilePosition;
 	}
-	else if (unit->getType() == GateWay || unit->getType() == Stargate){
+	else if (unit->getType() == GateWay || unit->getType() == BWAPI::UnitTypes::Protoss_Stargate){
 		Position = m_GateTilePosition;
 	}
 	else if (unit->getType() == Nexus){
@@ -400,7 +400,7 @@ void BuildingManager::LocationRemover(BWAPI::Unit unit){
 	if (unit->getType() == Pylon){
 		m_PylonTilePosition = Position;
 	}
-	else if (unit->getType() == GateWay || unit->getType() == Stargate){
+	else if (unit->getType() == GateWay || unit->getType() == BWAPI::UnitTypes::Protoss_Stargate){
 		m_GateTilePosition = Position;
 	}
 	else if (unit->getType() == Nexus){
@@ -587,14 +587,14 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 	if (!MrBuilder){
 		MrBuilder = HeadQuater->getClosestUnit(BWAPI::Filter::IsWorker, 999999);
 	}
-	
+
 
 	// Determine the building locations
 	std::vector<BWAPI::TilePosition>	Position;
 	if (BuildingTarget == Pylon){
 		Position = m_PylonTilePosition;
 	}
-	else if (BuildingTarget == GateWay || BuildingTarget == Stargate){
+	else if (BuildingTarget == GateWay || BuildingTarget == BWAPI::UnitTypes::Protoss_Stargate){
 		Position = m_GateTilePosition;
 	}
 	else if (BuildingTarget == Nexus){
@@ -638,7 +638,7 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 		// If a builder and location are secured
 		if (MrBuilder && targetBuildLocation){
 
-			if (!BWAPI::Broodwar->isExplored(targetBuildLocation) && BuildingTarget.mineralPrice()*0.8 < BWAPI::Broodwar->self()->minerals()){
+			if (!BWAPI::Broodwar->isExplored(targetBuildLocation)){ //  && BuildingTarget.mineralPrice() < BWAPI::Broodwar->self()->minerals()
 				MrBuilder->move(BWAPI::Position(targetBuildLocation));				
 			}
 			else{
