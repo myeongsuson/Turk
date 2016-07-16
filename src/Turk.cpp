@@ -249,8 +249,6 @@ void TheTurk::onFrame(){
 
 	// Build the first GateWay after the first pylon. Keep Build !
 	if (m_UnitCount["Pylon_Count"] >= 1 && m_UnitCount["GateWay_Count"] < m_MaxGateWayCount){
-		//BWAPI::Broodwar->sendText("Number of Gates,  %.2d", m_MaxGateWayCount);
-		
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, GateWay);		
 	}
 		
@@ -276,13 +274,9 @@ void TheTurk::onFrame(){
 	// $$$$$$$    Nexux Building: Expansion Team $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 	// Expansion Plans --> Might be moved to the ExpansionManager.
 
-	if (Broodwar->getFrameCount() % 20 == 0){
-		if (m_UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400 && m_UnitCount["Nexus_Count"]<4){  // First Triger & Overall Game Land Trigger
-			//BuildingManager::Instance().GetExpansionBase(TilePosition(EnemyHomeBase), homeTilePosition);
+	if (m_UnitCount["GateWay_Count"] >= 1 && BWAPI::Broodwar->self()->minerals() > 400 && m_UnitCount["Nexus_Count"]<4){  // First Triger & Overall Game Land Trigger
 			BuildingManager::Instance().BuildingFunction(ResourceDepot, Nexus);
-		}
-	}
-	
+	}	
 	// ###############################################################################################################################################
 
 
@@ -352,26 +346,22 @@ void TheTurk::onFrame(){
 	if (!m_EnemyDetection && Scouter){
 		m_EnemyDetection = ScoutManager::Instance().EnemyFirstDetector(m_EnemyDetection, m_FirstExpTilePosition);
 		
-
 		// We found an enemy
 		if (m_EnemyDetection){
+			// Get enemy Base Location
 			BWAPI::Position TargetPosition = Scouter->getTargetPosition();
 			m_EnemyTileHome = BWTA::getNearestBaseLocation(TargetPosition)->getTilePosition();
-			m_EnemyHome = BWAPI::Position(m_EnemyTileHome);
+			
+			// Save Enemy Base Location
+			InformationManager::Instance().EnemyBaseSaver(m_EnemyTileHome);
 
 			// Find the expansionbase with respect to our base and enemy base.
 			BuildingManager::Instance().GetExpansionBase(m_EnemyTileHome, m_homeTilePosition);
-						
-			// These infomation does not change in the game.
-			m_EnemyHillPosition = BWTA::getNearestChokepoint(m_EnemyTileHome)->getCenter();
-			m_EnemyTileExpansion = BWTA::getNearestBaseLocation(m_EnemyHillPosition)->getTilePosition();
 			
-			m_EnemyExpansion = BWAPI::Position(m_EnemyTileExpansion);
 		}
 	}
 	
 
-	
 	
 
 
@@ -435,7 +425,10 @@ void TheTurk::onFrame(){
 
 
 	// Combat Manager Action Update
-	CombatManager::Instance().CombatActionUpdate(m_EnemyTileHome, m_EnemyTileExpansion);
+	if (m_EnemyDetection){
+		CombatManager::Instance().CombatActionUpdate();
+	}
+	
 
 
 

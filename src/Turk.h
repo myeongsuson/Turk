@@ -154,7 +154,6 @@ private:
 
 
 	// Enemy Building Position
-	BWAPI::Position m_EnemyHome = BWAPI::Positions::None;
 	BWAPI::TilePosition m_EnemyTileHome = BWAPI::TilePositions::None;
 	
 	BWAPI::TilePosition m_EnemyTileExpansion = BWAPI::TilePositions::None;

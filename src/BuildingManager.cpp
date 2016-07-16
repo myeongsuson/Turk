@@ -616,13 +616,12 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 
 
 	
-	/*static int lastChecked = 0;
-	lastChecked + 10 < BWAPI::Broodwar->getFrameCount() &&
-		lastChecked = BWAPI::Broodwar->getFrameCount();
-*/
+	static int lastChecked = 0;	
 	// If we are supply blocked and haven't tried constructing more recently
-	if (BWAPI::Broodwar->self()->incompleteUnitCount(BuildingTarget) == 0){		
-		
+	if (BWAPI::Broodwar->self()->incompleteUnitCount(BuildingTarget) == 0 && lastChecked + 100 < BWAPI::Broodwar->getFrameCount() ){
+		lastChecked = BWAPI::Broodwar->getFrameCount();
+
+
 		BWAPI::TilePosition PossibleTilePosition = HeadQuater->getTilePosition();
 		BWAPI::Unit SecondHeadQuater = HeadQuater->getClosestUnit(BWAPI::Filter::IsResourceDepot && BWAPI::Filter::IsOwned, 999999);
 		if (SecondHeadQuater){
@@ -638,7 +637,7 @@ void BuildingManager::BuildingFunction(const BWAPI::Unit & HeadQuater, const BWA
 		// If a builder and location are secured
 		if (MrBuilder && targetBuildLocation){
 
-			if (!BWAPI::Broodwar->isExplored(targetBuildLocation)){ //  && BuildingTarget.mineralPrice() < BWAPI::Broodwar->self()->minerals()
+			if (!BWAPI::Broodwar->isExplored(targetBuildLocation) && BuildingTarget.mineralPrice() < BWAPI::Broodwar->self()->minerals()){ // 
 				MrBuilder->move(BWAPI::Position(targetBuildLocation));				
 			}
 			else{

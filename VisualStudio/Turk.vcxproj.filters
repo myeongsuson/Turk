@@ -41,19 +41,19 @@
     <ClInclude Include="..\src\Turk.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\BuildingManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\InformationManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ScoutManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\CombatManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\ExpansionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\BuildingManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\InformationManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\ScoutManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

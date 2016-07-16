@@ -58,8 +58,7 @@ namespace Turk {
 		const BWAPI::TilePosition & TechLocationPresent();
 		const std::vector<BWAPI::TilePosition> & TechSetPresent();
 		void TechLocationSaver(const std::vector<BWAPI::TilePosition> &);
-		void TechLocationRemover(BWAPI::TilePosition);
-
+		
 		const std::vector<BWAPI::TilePosition> & NexusSetPresent();
 		void NexusLocationRemover(BWAPI::TilePosition);
 
