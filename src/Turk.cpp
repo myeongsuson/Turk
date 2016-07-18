@@ -243,7 +243,10 @@ void TheTurk::onFrame(){
 	// Build the supply unit
 	Error lastErr = Broodwar->getLastError();	
 	if ( (BWAPI::Broodwar->self()->supplyUsed() / 2 + 5) > (BWAPI::Broodwar->self()->supplyTotal() / 2) || lastErr == Errors::Insufficient_Supply){				
-		BuildingManager::Instance().BuildingFunction(ResourceDepot, Pylon);
+		// We don't need pylons any more.
+		if ((BWAPI::Broodwar->self()->supplyTotal() / 2) < 200){
+			BuildingManager::Instance().BuildingFunction(ResourceDepot, Pylon);
+		}		
 	}	
 	
 
@@ -298,7 +301,7 @@ void TheTurk::onFrame(){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, Forge);
 	}
 	// Build the Citadel of Adun
-	if (m_FirstCybernetics && !m_FirstAdun){		
+	if (m_FirstCybernetics && !m_FirstAdun){				
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, CitadelOfAdun);
 	}
 
@@ -412,6 +415,17 @@ void TheTurk::onFrame(){
 			
 		}
 
+		if (unit->isIdle() && unit->getType() == GateWay){
+			unit->rightClick(m_Campus);
+
+			if (m_FirstCybernetics && m_UnitCount["DarkTempler_Count"] <=1 ){
+				unit->train(BWAPI::UnitTypes::Protoss_Dark_Templar);
+			}
+
+		}
+
+
+
 		if (unit->isIdle() && unit->getType() == StarGate){
 			unit->rightClick(m_Campus);
 			if (m_UnitCount["Corsair_Count"] <=12){
@@ -493,6 +507,8 @@ void TheTurk::onFrame(){
 
 			else if (unit->getType() == Cybernetics){
 				unit->upgrade(BWAPI::UpgradeTypes::Singularity_Charge);
+				unit->upgrade(BWAPI::UpgradeTypes::Protoss_Air_Weapons);
+				unit->upgrade(BWAPI::UpgradeTypes::Protoss_Air_Armor);
 			}
 
 			if (unit->getType() == Forge){

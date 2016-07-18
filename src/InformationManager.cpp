@@ -1,4 +1,5 @@
 #include "InformationManager.h"
+#include "CombatManager.h"
 
 using namespace Turk;
 
@@ -73,6 +74,12 @@ void InformationManager::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 	m_UnitCount["GateWay_Count"] = GateWay_Count;
 	m_UnitCount["StarGate_Count"] = StarGate_Count;
 	m_UnitCount["Nexus_Count"] = Nexus_Count;
+
+	
+	// Combine other counting infos
+	std::map<std::string, int> m_CombatUnitCount = CombatManager::Instance().GetUnitCount();
+	m_UnitCount.insert(m_CombatUnitCount.begin(), m_CombatUnitCount.end());
+
 
 	// Future unit sets
 	// SetScoutUnits();

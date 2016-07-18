@@ -70,6 +70,9 @@ namespace Turk {
 
 		void GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BWAPI::TilePosition HomeTilePositio);
 
+		// Expansion Site Sorting
+		void ExpansionSiteSorting(std::vector<double>);
+
 		// Building Function
 		void BuildingFunction(const BWAPI::Unit &, const BWAPI::UnitType &);
 		void MrBuilderRemover();

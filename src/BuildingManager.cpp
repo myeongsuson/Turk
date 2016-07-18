@@ -417,7 +417,7 @@ void BuildingManager::LocationRemover(BWAPI::Unit unit){
 
 void BuildingManager::GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BWAPI::TilePosition HomeTilePosition){
 	
-	std::map<double, BWAPI::TilePosition> NexusLoc;
+	std::vector<double> Distance;
 	std::map<double, BWAPI::TilePosition>::iterator i;
 
 	// This is only for nexus
@@ -428,29 +428,32 @@ void BuildingManager::GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BW
 
 	// for each base location
 	m_ExpansionLocation.clear();
+	Distance.clear();
 	for (BWTA::BaseLocation * base : BWTA::getBaseLocations()){
 		BWAPI::TilePosition tile = base->getTilePosition();
-
-		// // if the base has gas
+				
 		if (tile && !base->isIsland()){
 			//  // get the tile position of the base
-			int distanceFromHome = BWTA::getGroundDistance2(HomeTilePosition, tile); // -BWTA::getGroundDistance2(EnemyTilePosition, tile);
+			double distanceFromHome = tile.getDistance(HomeTilePosition) - tile.getDistance(EnemyTilePosition);
 
-			//// if it is not connected, continue //island
-			//if (!BWTA::isConnected(HomeTilePosition, tile)){
-			//	continue;
-			//}
-
-			NexusLoc[distanceFromHome] = tile;
+			Distance.push_back(distanceFromHome);
+			m_ExpansionLocation.push_back(tile);
 		}
 	}
 
-	// Move expansion location in the map to the vector
-	for (i = NexusLoc.begin(); i != NexusLoc.end(); i++){		
-		BWAPI::TilePosition TempLoc = i->second;
-		m_ExpansionLocation.push_back(TempLoc);
-	}	
-	BWAPI::Broodwar->sendText("Expansion Location size %.2d", NexusLoc.size());
+	// Sort Expansion Site with respect to their distances
+	ExpansionSiteSorting(Distance);
+
+	BWAPI::Broodwar->sendText("Expansion Location size %.2d", m_ExpansionLocation.size());
+
+
+
+	//// Move expansion location in the map to the vector
+	//for (i = NexusLoc.begin(); i != NexusLoc.end(); i++){		
+	//	BWAPI::TilePosition TempLoc = i->second;
+	//	m_ExpansionLocation.push_back(TempLoc);
+	//}	
+	
 
 
 	// std::reverse(m_ExpansionLocation.begin(), m_ExpansionLocation.end());
@@ -458,6 +461,37 @@ void BuildingManager::GetExpansionBase(BWAPI::TilePosition EnemyTilePosition, BW
 
 	
 }
+
+
+
+void BuildingManager::ExpansionSiteSorting(std::vector<double> Distance){
+	bool swapped = true;
+	int j = 0;
+	double tmp;
+	BWAPI::TilePosition temp2 = BWAPI::TilePositions::None;
+	while (swapped) {
+		swapped = false;
+		j++;
+
+		for (int i = 0; i < Distance.size() - j; i++) {
+			if (Distance.at(i) > Distance.at(i + 1)) {
+				tmp = Distance.at(i);
+				Distance.at(i) = Distance.at(i + 1);
+				Distance.at(i + 1) = tmp;
+
+				temp2 = m_ExpansionLocation.at(i);
+				m_ExpansionLocation.at(i) = m_ExpansionLocation.at(i + 1);
+				m_ExpansionLocation.at(i + 1) = temp2;
+
+				swapped = true;
+			}
+
+		}
+
+	}
+}
+
+
 
 
 //
