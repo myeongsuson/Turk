@@ -3,11 +3,12 @@
 #include "BuildingManager.h"
 #include "ScoutManager.h"
 #include "HUD.h"
-#include "Logger.h"
-#include "ConfigDB.h"
+#include "FlyingObjectManager.h"
+// #include "Logger.h"
+// #include "ConfigDB.h"
 #include "Common.h"
 
-#include "sqlite3.h"
+// #include "sqlite3.h"
 
 
 
@@ -45,18 +46,18 @@ public:
 	void drawTerrainData();
 	// Everything below this line is safe to modify.
 	
-private:
-
-	// Heads Up Display & Visualization
+//private:
+//
+//	// Heads Up Display & Visualization
 	HUD m_hud;
-
-	// Logger
-	Logger * m_log;
-
-	// Sqlite3 configuration database connection
-	ConfigDB * m_db;
-
-	// map analysis
+//
+//	// Logger
+//	Logger * m_log;
+//
+//	// Sqlite3 configuration database connection
+//	ConfigDB * m_db;
+//
+//	// map analysis
 	bool m_analyzed;
 	bool m_analysis_just_finished;
 
@@ -108,6 +109,7 @@ private:
 	bool m_FirstAdun = false;
 	bool m_FirstTemplarArchive = false;
 	bool m_FirstFleetBeacon = false;
+	bool m_FirstRobotics = false;
 
 
 	// Upgrade Situation: One Time and gone forever
@@ -133,6 +135,7 @@ private:
 	BWAPI::UnitType TemplerArchive = BWAPI::UnitTypes::Protoss_Templar_Archives;
 	BWAPI::UnitType StarGate = BWAPI::UnitTypes::Protoss_Stargate;
 	BWAPI::UnitType FleetBeacon = BWAPI::UnitTypes::Protoss_Fleet_Beacon;
+	BWAPI::UnitType Robotics = BWAPI::UnitTypes::Protoss_Robotics_Facility;
 
 	// Units
 	BWAPI::UnitType Zealot = BWAPI::UnitTypes::Protoss_Zealot;

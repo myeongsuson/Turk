@@ -7,44 +7,44 @@ using namespace Filter;
 using namespace Turk;
 
 // Define static member data
-const char * TheTurk::m_name = "TheTurk";
-Logger * Logger::m_ptr = 0;
-ConfigDB * ConfigDB::m_ptr = 0;
+//const char * TheTurk::m_name = "TheTurk";
+//Logger * Logger::m_ptr = 0;
+//ConfigDB * ConfigDB::m_ptr = 0;
 
 //
 // default constructor
 TheTurk::TheTurk() {
 
-	char * tdir = std::getenv("TURKDIR");
-	std::string baseDir(tdir);
-	std::string logDir("\\logs\\TurkTest");
-	std::string configName("\\TurkConfiguration.sqlite");
+	//char * tdir = std::getenv("TURKDIR");
+	//std::string baseDir(tdir);
+	//std::string logDir("\\logs\\TurkTest");
+	//std::string configName("\\TurkConfiguration.sqlite");
 
-	// connect to logger
-	m_log = Turk::Logger::instance();
-	m_log->newLog(std::string(baseDir+logDir).c_str());
+	//// connect to logger
+	//m_log = Turk::Logger::instance();
+	//m_log->newLog(std::string(baseDir+logDir).c_str());
 
-	//DB connection
-	m_log->log(m_name, "Connecting to DB");
-	//sqlite3 *db;
-	//int rc = sqlite3_open(std::string(baseDir + configName).c_str(),&db);
-	m_db = Turk::ConfigDB::instance();
+	////DB connection
+	//m_log->log(m_name, "Connecting to DB");
+	////sqlite3 *db;
+	////int rc = sqlite3_open(std::string(baseDir + configName).c_str(),&db);
+	//m_db = Turk::ConfigDB::instance();
 
-	char msg[500];
-	sprintf(msg, "Opened sqlite3 connection");
-	m_log->log(m_name, msg);
+	//char msg[500];
+	//sprintf(msg, "Opened sqlite3 connection");
+	//m_log->log(m_name, msg);
 
-	m_log->log(m_name, "Get LogDir");
-	std::vector<std::string> res = m_db->query("SELECT value FROM config WHERE key = 'LogDir';");
-	for (auto r : res) {
-		m_log->log(m_name, r.c_str());
-	}
+	//m_log->log(m_name, "Get LogDir");
+	//std::vector<std::string> res = m_db->query("SELECT value FROM config WHERE key = 'LogDir';");
+	//for (auto r : res) {
+	//	m_log->log(m_name, r.c_str());
+	//}
 
-	m_log->log(m_name, "Get BaseName");
-	res = m_db->query("SELECT value FROM config WHERE key = 'LogBase';");
-	for (auto r : res) {
-		m_log->log(m_name, r.c_str());
-	}
+	//m_log->log(m_name, "Get BaseName");
+	//res = m_db->query("SELECT value FROM config WHERE key = 'LogBase';");
+	//for (auto r : res) {
+	//	m_log->log(m_name, r.c_str());
+	//}
 	
 
 }
@@ -58,13 +58,13 @@ void TheTurk::onStart()
 
 	char msg[500];
 	sprintf(msg, ">>>> Starting New Game <<<<");
-	m_log->log(m_name, msg);
+	// m_log->log(m_name, msg);
 
 	// Print the map name.
 	// BWAPI returns std::string when retrieving a string, don't forget to add .c_str() when printing!
 	Broodwar << "The map is " << Broodwar->mapName() << "!" << std::endl;
 	sprintf(msg, "map: %s", Broodwar->mapFileName());
-	m_log->log(m_name, msg);
+	// m_log->log(m_name, msg);
 	
 	// Enable the UserInput flag, which allows us to control the bot and type messages.
 	Broodwar->enableFlag(Flag::UserInput);
@@ -82,7 +82,7 @@ void TheTurk::onStart()
 	if (Broodwar->isReplay()){
 		// Announce the players in the replay
 		Broodwar << "The following players are in this replay:" << std::endl;
-		m_log->log(m_name, "Players in this replay:");
+		// m_log->log(m_name, "Players in this replay:");
 
 		// Iterate all the players in the game using a std:: iterator
 		Playerset players = Broodwar->getPlayers();
@@ -92,7 +92,7 @@ void TheTurk::onStart()
 			if (!p->isObserver()) {
 				Broodwar << p->getName() << ", playing as " << p->getRace() << std::endl;
 				sprintf(msg, "%s, playing as %s", p->getName(), p->getRace().c_str());
-				m_log->log(m_name, msg);
+				//  m_log->log(m_name, msg);
 			}
 		}
 
@@ -104,7 +104,7 @@ void TheTurk::onStart()
 		if (Broodwar->enemy()) { // First make sure there is an enemy
 			Broodwar << "The matchup is " << Broodwar->self()->getRace() << " vs " << Broodwar->enemy()->getRace() << std::endl;
 			sprintf(msg, "Matchup: %s vs %s", Broodwar->self()->getRace().c_str(), Broodwar->enemy()->getRace().c_str());
-			m_log->log(m_name, msg);
+			// m_log->log(m_name, msg);
 		}
 	}
 
@@ -267,7 +267,7 @@ void TheTurk::onFrame(){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, Cybernetics);
 	}
 
-	// Build the Cybernetics Core
+	// Build the Forge
 	if (UnitCount["GateWay_Count"] >= 1 && m_FirstCybernetics && !m_FirstForge){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, Forge);
 	}
@@ -286,7 +286,11 @@ void TheTurk::onFrame(){
 	if (m_FirstAdun && !m_FirstTemplarArchive){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, TemplerArchive);
 	}
-	
+
+	// Build the Robotics
+	if (m_FirstTemplarArchive && UnitCount["Robotics_Count"]<1){
+		BuildingManager::Instance().BuildingFunction(ResourceDepot, Robotics);
+	}	
 
 	// Build the Fleet Beacon
 	if (UnitCount["StarGate_Count"] >= 1 && !m_FirstFleetBeacon){
@@ -451,11 +455,22 @@ void TheTurk::onFrame(){
 	// $$$$$$$$$$$$$$$$$$$$$$$$$$$ Unit Production $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 		// Build a gateway or generate a zealot	
 	for (auto & unit : UnitSetPresent()){
+
+		// Dark Templer Generation
 		// We found a gateway, and it is not generating a unit
 		if (unit->isIdle() && unit->getType() == GateWay){
+			// Assemble the troups to the main force
 			unit->rightClick(m_Campus);
-						
-			if (m_FirstCybernetics && m_UnitCount["Zealot_Count"] >= m_UnitCount["Dragoon_Count"]){
+			
+			// Fast Dark
+			if (UnitCount["GateWay_Count"] > 1 && UnitCount["TemplarArchives_Count"] == 1){
+				if (UnitCount["DarkTempler_Count"] < 5){
+					unit->train(BWAPI::UnitTypes::Protoss_Dark_Templar);
+				}
+			}
+			
+			// Produce Zealots			
+			if (m_FirstCybernetics && UnitCount["Zealot_Count"] >= UnitCount["Dragoon_Count"]){
 				unit->train(BWAPI::UnitTypes::Protoss_Dragoon);
 			}
 			else if (UnitCount["HighTempler_Count"] < 10){
@@ -464,20 +479,86 @@ void TheTurk::onFrame(){
 			else{
 				unit->train(BWAPI::UnitTypes::Protoss_Zealot);
 			}
-
 			
 
-		}
+			// Corsair Production
+			if (unit->isIdle() && unit->getType() == StarGate){
+				unit->rightClick(m_Campus);
+				if (UnitCount["Corsair_Count"] <= 3){
+					unit->train(BWAPI::UnitTypes::Protoss_Corsair);
+				}
+			}
 
-		if (unit->isIdle() && unit->getType() == StarGate){
-			unit->rightClick(m_Campus);
-			if (m_UnitCount["Corsair_Count"] <= 12){
-				unit->train(BWAPI::UnitTypes::Protoss_Corsair);
-			}			
+			// Shuttle Generation
+			if (unit->isIdle() && unit->getType() == BWAPI::UnitTypes::Protoss_Robotics_Facility){
+				// Shuttle needs not assemble.
+				if (UnitCount["Shuttle_Count"] < 1){
+					unit->train(BWAPI::UnitTypes::Protoss_Shuttle);
+				}
+			}
+			
 		}
 	}
 
 	
+		
+	// Shuttle Control1: Load Dark Templars
+	for (auto & unit : UnitSetPresent()){
+		if (unit->getType() == BWAPI::UnitTypes::Protoss_Shuttle){
+			int LoadedUnit = unit->getLoadedUnits().size();
+
+			// There are some spaces
+			if (LoadedUnit < 5){
+				// Find the Dark Templar
+				for (auto & unit2 : BWAPI::Broodwar->self()->getUnits()){
+					if (unit2->getType() == BWAPI::UnitTypes::Protoss_Dark_Templar){
+						unit->load(unit2);
+					}
+				}
+			}
+
+
+						
+
+
+		}
+	}
+
+	// Detect Enemy Locations
+
+
+	/*unloadAll
+	load*/
+
+
+
+	// Move Shuttle to the enemy location
+	for (auto & unit : UnitSetPresent()){
+		
+		// Find the shuttle
+		if (unit->getType() == BWAPI::UnitTypes::Protoss_Shuttle){
+			int LoadedUnit = unit->getLoadedUnits().size();
+
+
+			// getLoadedUnits
+
+			
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	// $$$$$$$$$$$$$$$$$$$$$$$$$$$ Attack Process $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$	
 	// Determine whether a scouter is in attack mode or searching mode.
 	for (auto & unit : UnitSetPresent()){
@@ -594,6 +675,16 @@ void TheTurk::onFrame(){
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -847,10 +938,12 @@ void TheTurk::onUnitComplete(BWAPI::Unit unit)
 		}
 		else if (unit->getType() == BWAPI::UnitTypes::Protoss_Templar_Archives){
 			m_FirstTemplarArchive = true;			
+		}		
+		else if (unit->getType() == BWAPI::UnitTypes::Protoss_Templar_Archives){
+			m_FirstTemplarArchive = true;
 		}
 		else if (unit->getType() == BWAPI::UpgradeTypes::Leg_Enhancements){
-			m_Leg_Enhancements = true;
-			
+			m_Leg_Enhancements = true;			
 		}
 		else if (unit->getType() == BWAPI::UnitTypes::Protoss_Nexus && UnitCount["Nexus_Count"]==2){
 
@@ -921,15 +1014,22 @@ void TheTurk::onEnd(bool isWinner)
 // Collect all valid units except dead bodies
 void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 
+	// Building Count Variable Definition & Declaration
 	int Pylon_Count = 0;
 	int GateWay_Count = 0;
 	int StarGate_Count = 0;
 	int Nexus_Count = 0;
+	int TemplarArchives_Count = 0;
+	int Robotics_Count = 0;
+
+
 	int Probe_Count = 0;
 	int Zealot_Count = 0;
 	int Dragoon_Count = 0;
 	int Corsair_Count = 0;
 	int HighTempler_Count = 0;
+	int DarkTempler_Count = 0;
+	int Shuttle_Count = 0;
 
 
 	m_ValidUnits.clear();
@@ -972,11 +1072,29 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 			{
 				GateWay_Count = GateWay_Count + 1;
 			}
+			// Building
 			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Stargate){
 				StarGate_Count = StarGate_Count + 1;
 			}
+			// Building
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Templar_Archives){
+				TemplarArchives_Count = TemplarArchives_Count + 1;
+			}
+			// Building
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Robotics_Facility){
+				Robotics_Count = Robotics_Count + 1;
+			}
+			// Unit
 			else if (unit->getType() == BWAPI::UnitTypes::Protoss_High_Templar){
 				HighTempler_Count = HighTempler_Count + 1;
+			}
+			// Unit
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Dark_Templar){
+				DarkTempler_Count = DarkTempler_Count + 1;
+			}
+			// Unit
+			else if (unit->getType() == BWAPI::UnitTypes::Protoss_Shuttle){
+				Shuttle_Count = Shuttle_Count + 1;
 			}
 		}
 	}
@@ -984,16 +1102,25 @@ void TheTurk::ValidUnitCollector(const BWAPI::Unit & ScouterUnit){
 		m_WorkerUnits.erase(ScouterUnit);
 	}
 
+	// Counting Variable Redefine (Building First and Unit Second)
+	// Building Counting
+	m_UnitCount["Pylon_Count"] = Pylon_Count;
+	m_UnitCount["GateWay_Count"] = GateWay_Count;
+	m_UnitCount["StarGate_Count"] = StarGate_Count;
+	m_UnitCount["Nexus_Count"] = Nexus_Count;
+	m_UnitCount["TemplarArchives_Count"] = TemplarArchives_Count;
+	m_UnitCount["Robotics_Count"] = Robotics_Count;
+
+	// Unit Counting
 	m_UnitCount["Probe_Count"] = Probe_Count;
 	m_UnitCount["Zealot_Count"] = Zealot_Count;
 	m_UnitCount["Dragoon_Count"] = Dragoon_Count;
 	m_UnitCount["Corsair_Count"] = Corsair_Count;
 	m_UnitCount["HighTempler_Count"] = HighTempler_Count;
+	m_UnitCount["DarkTempler_Count"] = DarkTempler_Count;
+	m_UnitCount["Shuttle_Count"] = Shuttle_Count;
 
-	m_UnitCount["Pylon_Count"] = Pylon_Count;
-	m_UnitCount["GateWay_Count"] = GateWay_Count;
-	m_UnitCount["StarGate_Count"] = StarGate_Count;
-	m_UnitCount["Nexus_Count"] = Nexus_Count;
+	
 
 	// Future unit sets
 	// SetScoutUnits();
