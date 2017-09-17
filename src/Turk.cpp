@@ -54,7 +54,7 @@ void TheTurk::onStart()
 
 	// Hello World!
 	//Broodwar->sendText("Hello world!");
-	Broodwar->setLocalSpeed(20);
+	Broodwar->setLocalSpeed(10);
 
 	char msg[500];
 	sprintf(msg, ">>>> Starting New Game <<<<");
@@ -116,6 +116,8 @@ void TheTurk::onStart()
 	m_analysis_just_finished = true;
 
 
+	
+
 	// Variable Definition
 	m_homePosition = BWAPI::Position(Broodwar->self()->getStartLocation());
 	m_homeTilePosition = Broodwar->self()->getStartLocation();
@@ -157,14 +159,16 @@ void TheTurk::onStart()
 	BuildingManager::Instance().DefensePylonLocation(FirstMineralSet);
 
 
+	
+
 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%	
 	// Very Basic Initiation: Split workers optimally
-	for (auto &unit : Broodwar->self()->getUnits()){
+	for (auto &unit : BWAPI::Broodwar->self()->getUnits()){
 		// A resource depot is a Command Center, Nexus, or Hatchery
 		if (unit->getType().isResourceDepot()){
 			ResourceDepot = unit;
 			// Generate the first worker
-			unit->train(unit->getType().getRace().getWorker());
+			unit->train(unit->getType().getRace().getWorker());			
 		}
 		// If the unit is a worker unit
 		else if (unit->getType().isWorker()) {
@@ -188,7 +192,6 @@ void TheTurk::onStart()
 	// Location of the first pylon
 	m_Campus.x = (m_PylonToChoke * m_homePosition.x + m_BaseToPylon* m_HillPosition.x) / (m_BaseToPylon + m_PylonToChoke);
 	m_Campus.y = (m_PylonToChoke * m_homePosition.y + m_BaseToPylon* m_HillPosition.y) / (m_BaseToPylon + m_PylonToChoke);
-
 
 
 
@@ -226,7 +229,7 @@ void TheTurk::onFrame(){
 	// Important System Variables	
 	// Bring the scouter point
 	BWAPI::Unit Scouter = ScoutManager::Instance().ScouterPresent();
-
+	
 	// %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	// Collect all possible units.
 	// A set of workers will not contain a scouter.	
@@ -272,11 +275,17 @@ void TheTurk::onFrame(){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, Forge);
 	}
 		
-	// Build the StarGate (Only For Against Zerg)
+	 // Build the StarGate (Only For Against Zerg)
 	if (UnitCount["StarGate_Count"] == 0 && m_FirstCybernetics){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, StarGate);
 	}
 	
+	// Build the Fleet Beacon
+	if (UnitCount["StarGate_Count"] >= 1 && !m_FirstFleetBeacon){
+		BuildingManager::Instance().BuildingFunction(ResourceDepot, FleetBeacon);
+	}
+
+
 	// Build the Citadel of Adun
 	if (m_FirstCybernetics && !m_FirstAdun){		
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, CitadelOfAdun);
@@ -291,14 +300,7 @@ void TheTurk::onFrame(){
 	if (m_FirstTemplarArchive && UnitCount["Robotics_Count"]<1){
 		BuildingManager::Instance().BuildingFunction(ResourceDepot, Robotics);
 	}	
-
-	// Build the Fleet Beacon
-	if (UnitCount["StarGate_Count"] >= 1 && !m_FirstFleetBeacon){
-		BuildingManager::Instance().BuildingFunction(ResourceDepot, FleetBeacon);
-	}
-
-
-
+	
 	 // Expansion Plans --> Might be moved to the ExpansionManager.	 
 	 if (UnitCount["GateWay_Count"] == 1 && BWAPI::Broodwar->self()->minerals() > 400){  // First Triger & Overall Game Land Trigger
 		//BuildingManager::Instance().GetExpansionBase(TilePosition(EnemyHomeBase), homeTilePosition);
@@ -461,54 +463,55 @@ void TheTurk::onFrame(){
 		if (unit->isIdle() && unit->getType() == GateWay){
 			// Assemble the troups to the main force
 			unit->rightClick(m_Campus);
-			
-			// Fast Dark
-			if (UnitCount["GateWay_Count"] > 1 && UnitCount["TemplarArchives_Count"] == 1){
-				if (UnitCount["DarkTempler_Count"] < 5){
-					unit->train(BWAPI::UnitTypes::Protoss_Dark_Templar);
-				}
-			}
-			
+
+			//// Fast Dark
+			//if (UnitCount["GateWay_Count"] > 1 && UnitCount["TemplarArchives_Count"] == 1){
+			//	if (UnitCount["DarkTempler_Count"] < 5){
+			//		unit->train(BWAPI::UnitTypes::Protoss_Dark_Templar);
+			//	}
+			//}
+
 			// Produce Zealots			
 			if (m_FirstCybernetics && UnitCount["Zealot_Count"] >= UnitCount["Dragoon_Count"]){
 				unit->train(BWAPI::UnitTypes::Protoss_Dragoon);
 			}
-			else if (UnitCount["HighTempler_Count"] < 10){
-				unit->train(BWAPI::UnitTypes::Protoss_High_Templar);
-			}
+			/*	else if (UnitCount["HighTempler_Count"] < 10){
+					unit->train(BWAPI::UnitTypes::Protoss_High_Templar);
+					}*/
 			else{
 				unit->train(BWAPI::UnitTypes::Protoss_Zealot);
 			}
+		}
 			
 
-			// Corsair Production
-			if (unit->isIdle() && unit->getType() == StarGate){
-				unit->rightClick(m_Campus);
-				if (UnitCount["Corsair_Count"] <= 3){
-					unit->train(BWAPI::UnitTypes::Protoss_Corsair);
-				}
+		// Corsair Production
+		if (unit->isIdle() && unit->getType() == StarGate){
+			unit->rightClick(m_Campus);			
+			if (UnitCount["Corsair_Count"] <= 3){
+				unit->train(BWAPI::UnitTypes::Protoss_Corsair);
 			}
+		}
 
-			// Shuttle Generation
-			if (unit->isIdle() && unit->getType() == BWAPI::UnitTypes::Protoss_Robotics_Facility){
-				// Shuttle needs not assemble.
-				if (UnitCount["Shuttle_Count"] < 1){
-					unit->train(BWAPI::UnitTypes::Protoss_Shuttle);
-				}
+
+		// Shuttle Generation
+		if (unit->isIdle() && unit->getType() == BWAPI::UnitTypes::Protoss_Robotics_Facility){
+			// Shuttle needs not assemble.
+			if (UnitCount["Shuttle_Count"] < 1){
+				unit->train(BWAPI::UnitTypes::Protoss_Shuttle);
 			}
-			
 		}
 	}
 
 	
 		
-	// Shuttle Control1: Load Dark Templars
+	// Shuttle Control
+	// 1: Load Dark Templars
 	for (auto & unit : UnitSetPresent()){
 		if (unit->getType() == BWAPI::UnitTypes::Protoss_Shuttle){
 			int LoadedUnit = unit->getLoadedUnits().size();
 
 			// There are some spaces
-			if (LoadedUnit < 5){
+			if (LoadedUnit < 4){
 				// Find the Dark Templar
 				for (auto & unit2 : BWAPI::Broodwar->self()->getUnits()){
 					if (unit2->getType() == BWAPI::UnitTypes::Protoss_Dark_Templar){
@@ -516,50 +519,35 @@ void TheTurk::onFrame(){
 					}
 				}
 			}
+			// If everybody is onboard, let's go.
+			else if (LoadedUnit == 4){
+				unit->move(m_EnemyHomeBase, true);				
+			}
 
+			// If the previous order was Move and we are in the enemy base, unload all of them.
+			if (unit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Move){
+				double dist = unit->getDistance(m_EnemyHomeBase);
+				if (dist < 5){
+					unit->unloadAll();
+				}
+			}
 
-						
-
-
+			// Go Back
+			if (unit->getLastCommand().getType() == BWAPI::UnitCommandTypes::Unload_All){
+				int LoadedUnit = unit->getLoadedUnits().size();
+				if (LoadedUnit == 0){
+					unit->move(m_homePosition);
+				}
+			}
 		}
 	}
 
-	// Detect Enemy Locations
-
-
-	/*unloadAll
-	load*/
-
-
-
-	// Move Shuttle to the enemy location
-	for (auto & unit : UnitSetPresent()){
-		
-		// Find the shuttle
-		if (unit->getType() == BWAPI::UnitTypes::Protoss_Shuttle){
-			int LoadedUnit = unit->getLoadedUnits().size();
-
-
-			// getLoadedUnits
-
-			
-		}
-	}
+	
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-	// $$$$$$$$$$$$$$$$$$$$$$$$$$$ Attack Process $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$	
+	// $$$$$$$$$$$$$$$$$$$$$$$$$$$ Corsiar Attack Process $$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$	
 	// Determine whether a scouter is in attack mode or searching mode.
 	for (auto & unit : UnitSetPresent()){
 		if (unit->getType() == Corsair){						

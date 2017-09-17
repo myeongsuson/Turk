@@ -1,0 +1,30 @@
+﻿Build started 2017-09-17 오후 8:53:05.
+     1>Project "C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\Turk.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\src /I..\tools /IC:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2\include /IC:\Users\Keanu\Dropbox\Lab\Stark\BWAPI\include /Zi /nologo /W3 /WX- /sdl- /MP /O2 /Ob1 /Oi /Oy- /GL /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /MD /GS /Gy /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\\" /Fd"C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\Turk.cpp
+         Turk.cpp
+     1>..\src\Turk.cpp(60): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
+     1>..\src\Turk.cpp(66): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
+     1>..\src\Turk.cpp(94): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
+     1>..\src\Turk.cpp(106): warning C4996: 'sprintf': This function or variable may be unsafe. Consider using sprintf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\include\stdio.h(356) : see declaration of 'sprintf'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\..\bin\Turk.dll" /INCREMENTAL:NO /NOLOGO C:\Users\Keanu\Dropbox\Lab\Stark\BWAPI/lib/BWAPI.lib C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/BWTA.lib "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libboost_system-vc120-mt-1_56.lib" "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libboost_thread-vc120-mt-1_56.lib" "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libCGAL-vc120-mt-4.4.lib" "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libgmp-10.lib" "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libmpfr-4.lib" "C:\Users\Keanu\Dropbox\Lab\Stark\BWTAlib_2.2/lib/libboost_filesystem-vc120-mt-1_56.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\..\bin\Turk.pdb" /MAP /SUBSYSTEM:WINDOWS /OPT:REF /OPT:ICF /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /SAFESEH /DLL C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\BuildingManager.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\Dll.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\HUD.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\InformationManager.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\ScoutManager.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\Turk.obj
+         C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\Release\Turk\sqlite3.obj
+            Creating library C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\..\bin\Turk.lib and object C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\..\bin\Turk.exp
+         Generating code
+         Finished generating code
+         Turk.vcxproj -> C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\\..\bin\Turk.dll
+     1>Done Building Project "C:\Users\Keanu\Dropbox\Lab\Stark\Turk\VisualStudio\Turk.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:08.91

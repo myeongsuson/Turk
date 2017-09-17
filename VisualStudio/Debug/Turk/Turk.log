@@ -1,0 +1,123 @@
+﻿Build started 7/8/2016 11:23:20 PM.
+     1>Project "C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\Turk.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I../src /IC:\Users\Duehee\Dropbox\StarComp\BWAPI/include /IC:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/include /Zi /nologo /W3 /WX- /sdl- /MP /Od /Oy- /GL /D _WINDLL /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\\" /Fd"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt ..\src\BuildingManager.cpp ..\src\Dll.cpp ..\src\InformationManager.cpp ..\src\ScoutManager.cpp ..\src\Turk.cpp
+         BuildingManager.cpp
+         Dll.cpp
+         InformationManager.cpp
+         ScoutManager.cpp
+         Turk.cpp
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.dll" /INCREMENTAL:NO /NOLOGO C:\Users\Duehee\Dropbox\StarComp\BWAPI/lib/BWAPI.lib C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/BWTA.lib "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_system-vc120-mt-1_56.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_thread-vc120-mt-1_56.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libCGAL-vc120-mt-4.4.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libgmp-10.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libmpfr-4.lib" "C:\Users\Duehee\Dropbox\StarComp\BWTAlib_2.2/lib/libboost_filesystem-vc120-mt-1_56.lib" kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.pdb" /LTCG /TLBID:1 /DYNAMICBASE /NXCOMPAT /MACHINE:X86 /DLL C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\BuildingManager.obj
+         C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\Dll.obj
+         C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\InformationManager.obj
+         C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\ScoutManager.obj
+         C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\Debug\Turk\Turk.obj
+     1>BWAPI.lib(Position.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Position.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(UnitType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(UnitType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Filters.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Filters.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Player.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Player.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Game.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Game.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Unit.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Unit.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(AIModule.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(AIModule.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Race.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Race.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Error.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Error.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(UpgradeType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(UpgradeType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(TechType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(TechType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(PositionUnit.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(PositionUnit.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Color.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Color.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(WeaponType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(WeaponType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(UnitSizeType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(UnitSizeType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(DamageType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(DamageType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Unitset.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Unitset.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(UnitCommand.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(UnitCommand.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(Order.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(Order.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(ExplosionType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(ExplosionType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWAPI.lib(UnitCommandType.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWAPI.lib(UnitCommandType.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(BWTA.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(BWTA.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(pathfinding.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(pathfinding.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(terrain_analysis.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(terrain_analysis.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(Polygon.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(Polygon.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(stdafx.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(stdafx.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(util.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(util.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(BWTA_Result.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(BWTA_Result.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(MapData.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(MapData.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(VertexData.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(VertexData.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(get_voronoi_edges.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(get_voronoi_edges.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(load_data.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(load_data.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(calculate_connectivity.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(calculate_connectivity.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(Graph.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(Graph.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(Node.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(Node.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(RegionImpl.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(RegionImpl.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(ChokepointImpl.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(ChokepointImpl.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(find_base_locations.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(find_base_locations.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(extract_polygons.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(extract_polygons.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(BaseLocationImpl.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(BaseLocationImpl.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>BWTA.lib(ConnectedComponent.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>BWTA.lib(ConnectedComponent.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_system-vc120-mt-1_56.lib(error_code.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_system-vc120-mt-1_56.lib(error_code.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_thread-vc120-mt-1_56.lib(thread.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_thread-vc120-mt-1_56.lib(thread.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_thread-vc120-mt-1_56.lib(tss_pe.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_thread-vc120-mt-1_56.lib(tss_pe.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libCGAL-vc120-mt-4.4.lib(all_files.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libCGAL-vc120-mt-4.4.lib(all_files.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(path_traits.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(path_traits.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(path.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(path.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(operations.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(operations.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(codecvt_error_category.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(codecvt_error_category.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(windows_file_codecvt.obj) : error LNK2038: mismatch detected for '_ITERATOR_DEBUG_LEVEL': value '0' doesn't match value '2' in BuildingManager.obj
+     1>libboost_filesystem-vc120-mt-1_56.lib(windows_file_codecvt.obj) : error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MD_DynamicRelease' doesn't match value 'MDd_DynamicDebug' in BuildingManager.obj
+            Creating library C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.lib and object C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.exp
+     1>LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
+     1>C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\\..\bin\Turk.dll : fatal error LNK1319: 100 mismatches detected
+     1>Done Building Project "C:\Users\Duehee\Dropbox\StarComp\Turk\VisualStudio\Turk.vcxproj" (Build target(s)) -- FAILED.
+
+Build FAILED.
+
+Time Elapsed 00:00:10.02
